@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MakerFacts | Home</title>
+    <style>
+        :root { --bg: #0f172a; --card: #1e293b; --accent: #38bdf8; --text: #f8fafc; --muted: #94a3b8; --border: #334155; }
+        * { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Segoe UI', sans-serif; }
+        body { background: var(--bg); color: var(--text); line-height: 1.6; }
+        header { background: #090d16; border-bottom: 1px solid var(--border); position: sticky; top: 0; z-index: 100; }
+        nav { max-width: 1100px; margin: 0 auto; display: flex; justify-content: space-between; align-items: center; padding: 1rem 1.5rem; }
+        .logo { font-size: 1.5rem; font-weight: 700; color: var(--accent); text-decoration: none; }
+        .nav-links { display: flex; gap: 1.5rem; list-style: none; }
+        .nav-links a { color: var(--text); text-decoration: none; font-weight: 500; }
+        .nav-links a.active, .nav-links a:hover { color: var(--accent); }
+        .container { max-width: 1100px; margin: 3rem auto; padding: 0 1.5rem; }
+        .hero { text-align: center; padding: 4rem 1.5rem; background: var(--card); border-radius: 12px; border: 1px solid var(--border); margin-bottom: 3rem; }
+        .hero h1 { font-size: 2.5rem; margin-bottom: 0.75rem; }
+        .hero p { color: var(--muted); max-width: 600px; margin: 0 auto 1.5rem auto; font-size: 1.05rem; }
+        .btn-group { display: flex; gap: 1rem; justify-content: center; flex-wrap: wrap; }
+        .btn { display: inline-block; background: var(--accent); color: #000; padding: 0.6rem 1.2rem; border-radius: 6px; text-decoration: none; font-weight: 600; transition: background 0.2s; }
+        .btn:hover { background: #0284c7; color: #fff; }
+        .btn-secondary { background: transparent; border: 1px solid var(--accent); color: var(--accent); }
+        .btn-secondary:hover { background: var(--accent); color: #000; }
+        .section-title { font-size: 1.75rem; margin-bottom: 1.5rem; border-bottom: 2px solid var(--accent); display: inline-block; }
+        .grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: 1.5rem; }
+        .card { background: var(--card); border: 1px solid var(--border); border-radius: 8px; padding: 1.5rem; }
+        .card h3 { color: var(--accent); margin-bottom: 0.5rem; }
+        .card p { color: var(--muted); font-size: 0.95rem; margin-bottom: 1rem; }
+        footer { text-align: center; padding: 2rem; color: var(--muted); border-top: 1px solid var(--border); margin-top: 4rem; }
+        footer a { color: var(--accent); text-decoration: none; }
+    </style>
+</head>
+<body>
+    <header>
+        <nav>
+            <a href="index.html" class="logo">MakerFacts</a>
+            <ul class="nav-links">
+                <li><a href="index.html" class="active">Home</a></li>
+                <li><a href="aboutme.html">About</a></li>
+                <li><a href="channels.html">Channels</a></li>
+                <li><a href="contact.html">Contact</a></li>
+                <li><a href="legal.html">Legal</a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <div class="container">
+        <section class="hero">
+            <h1>Welcome to MakerFacts</h1>
+            <p>The central directory, project hub, and official landing page for Makerplays content networks, gaming channels, and community projects.</p>
+            <div class="btn-group">
+                <a href="channels.html" class="btn">Explore Channels</a>
+                <a href="aboutme.html" class="btn btn-secondary">About the Creator</a>
+            </div>
+        </section>
+
+        <h2 class="section-title">Directory Overview</h2>
+        <div class="grid">
+            <div class="card">
+                <h3>🙋‍♂️ About Makerplays</h3>
+                <p>Learn about the journey, building background, and history behind the channel network.</p>
+                <a href="aboutme.html" class="btn">Read About Me</a>
+            </div>
+            <div class="card">
+                <h3>📺 Multi-Channel Network</h3>
+                <p>Explore active channels covering Minecraft builds, variety gaming, VR adventures, and memes.</p>
+                <a href="channels.html" class="btn">View Channels</a>
+            </div>
+            <div class="card">
+                <h3>💬 Get in Touch</h3>
+                <p>Connect with the community on Discord or send direct business and creator inquiries.</p>
+                <a href="contact.html" class="btn">Contact Info</a>
+            </div>
+        </div>
+    </div>
+
+    <footer>
+        <p>&copy; 2026 MakerFacts Network. All rights reserved.</p>
+        <p><a href="legal.html">Privacy Policy & Terms</a></p>
+    </footer>
+</body>
+</html>
