@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MakerFacts | About Me</title>
+    <style>
+        :root { --bg: #0f172a; --card: #1e293b; --accent: #38bdf8; --text: #f8fafc; --muted: #94a3b8; --border: #334155; }
+        * { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Segoe UI', sans-serif; }
+        body { background: var(--bg); color: var(--text); line-height: 1.6; }
+        header { background: #090d16; border-bottom: 1px solid var(--border); position: sticky; top: 0; z-index: 100; }
+        nav { max-width: 1100px; margin: 0 auto; display: flex; justify-content: space-between; align-items: center; padding: 1rem 1.5rem; }
+        .logo { font-size: 1.5rem; font-weight: 700; color: var(--accent); text-decoration: none; }
+        .nav-links { display: flex; gap: 1.5rem; list-style: none; }
+        .nav-links a { color: var(--text); text-decoration: none; font-weight: 500; }
+        .nav-links a.active, .nav-links a:hover { color: var(--accent); }
+        .container { max-width: 1100px; margin: 3rem auto; padding: 0 1.5rem; }
+        .section-title { font-size: 1.75rem; margin-bottom: 1.5rem; border-bottom: 2px solid var(--accent); display: inline-block; }
+        
+        /* About Hero Layout */
+        .about-box { background: var(--card); border: 1px solid var(--border); border-radius: 12px; padding: 2.5rem; margin-bottom: 3rem; }
+        .about-box h2 { color: var(--accent); margin-bottom: 1rem; font-size: 1.8rem; }
+        .about-box p { color: var(--text); font-size: 1.05rem; margin-bottom: 1.25rem; }
+        .highlight-text { color: var(--muted); font-size: 0.95rem; }
+
+        /* Stats & Highlights Grid */
+        .grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: 1.5rem; }
+        .card { background: var(--card); border: 1px solid var(--border); border-radius: 8px; padding: 1.5rem; }
+        .card h3 { color: var(--accent); margin-bottom: 0.5rem; }
+        .card p { color: var(--muted); font-size: 0.95rem; }
+
+        footer { text-align: center; padding: 2rem; color: var(--muted); border-top: 1px solid var(--border); margin-top: 4rem; }
+        footer a { color: var(--accent); text-decoration: none; }
+    </style>
+</head>
+<body>
+    <header>
+        <nav>
+            <a href="index.html" class="logo">MakerFacts</a>
+            <ul class="nav-links">
+                <li><a href="index.html">Home</a></li>
+                <li><a href="about.html" class="active">About</a></li>
+                <li><a href="channels.html">Channels</a></li>
+                <li><a href="series.html">Series</a></li>
+                <li><a href="contact.html">Contact</a></li>
+                <li><a href="legal.html">Legal</a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <div class="container">
+        <h1 class="section-title">About Me</h1>
+        
+        <!-- Main Bio Box -->
+        <div class="about-box">
+            <h2>Hey, I'm Ephream (Makerplays)</h2>
+            <p>
+                I'm a content creator, Minecraft builder, gamer, and digital developer. My journey started with a passion for building—from playing with Legos and designing courses in Super Mario Maker to learning how to code computer software.
+            </p>
+            <p>
+                That drive to construct and create inspired the handle <strong>Makerplays</strong>. Over the past three years, I've expanded into managing a multi-channel network covering Minecraft survival series, build battles, VR experiences, and short-form gaming memes across YouTube and TikTok.
+            </p>
+            <p class="highlight-text">
+                MakerFacts serves as the central directory, landing page, and legal hub connecting all of my channels, servers, and ongoing creator projects in one clean place.
+            </p>
+        </div>
+
+        <!-- Quick Facts / Pillars -->
+        <h2 class="section-title">What I Do</h2>
+        <div class="grid">
+            <div class="card">
+                <h3>🎮 Gaming & Minecraft</h3>
+                <p>Creating series like the <em>Epic Build Battle</em> and <em>Breaking Minecraft PE Edition</em>, while running custom SMP and community server spaces.</p>
+            </div>
+            <div class="card">
+                <h3>🎨 Content Creation</h3>
+                <p>Producing gaming videos, shorts, and VR adventures across dedicated channels including MakerGamez, MakerVR, and MakerMEMES.</p>
+            </div>
+            <div class="card">
+                <h3>💻 Coding & Design</h3>
+                <p>Designing channel graphics, logo assets, server moderation systems, and building websites like MakerFacts from scratch.</p>
+            </div>
+        </div>
+    </div>
+
+    <footer>
+        <p>&copy; 2026 MakerFacts Network. All rights reserved.</p>
+        <p><a href="legal.html">Privacy Policy & Terms</a></p>
+    </footer>
+</body>
+</html>
