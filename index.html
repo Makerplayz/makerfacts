@@ -3,310 +3,49 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>MakerFacts | Offcial Website For Makers Facts</title>
+    <title>MakerFacts | Home</title>
     <style>
-        :root {
-            --bg-color: #0f172a;
-            --card-bg: #1e293b;
-            --accent-color: #38bdf8;
-            --accent-hover: #0284c7;
-            --text-color: #f8fafc;
-            --text-muted: #94a3b8;
-            --border-color: #334155;
-        }
-
-        /* Smooth scrolling when clicking anchor links */
-        html {
-            scroll-behavior: smooth;
-        }
-
-        * {
-            box-sizing: border-box;
-            margin: 0;
-            padding: 0;
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-        }
-
-        body {
-            background-color: var(--bg-color);
-            color: var(--text-color);
-            line-height: 1.6;
-            padding-bottom: 2rem;
-        }
-
-        /* Navigation */
-        header {
-            background-color: #090d16;
-            border-bottom: 1px solid var(--border-color);
-            position: sticky;
-            top: 0;
-            z-index: 100;
-        }
-
-        nav {
-            max-width: 1100px;
-            margin: 0 auto;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            padding: 1rem 1.5rem;
-        }
-
-        .logo {
-            font-size: 1.5rem;
-            font-weight: 700;
-            color: var(--accent-color);
-            text-decoration: none;
-        }
-
-        .nav-links {
-            display: flex;
-            gap: 1.5rem;
-            list-style: none;
-        }
-
-        .nav-links a {
-            color: var(--text-color);
-            text-decoration: none;
-            font-weight: 500;
-            transition: color 0.2s;
-        }
-
-        .nav-links a:hover {
-            color: var(--accent-color);
-        }
-
-        /* Container */
-        .container {
-            max-width: 1100px;
-            margin: 2rem auto;
-            padding: 0 1.5rem;
-        }
-
-        /* Section Styling & Scroll Margin to clear sticky header */
-        .page-section {
-            scroll-margin-top: 80px;
-            margin-bottom: 4rem;
-            padding-top: 1rem;
-        }
-
-        /* Hero Section */
-        .hero {
-            text-align: center;
-            padding: 4rem 1.5rem;
-            background: linear-gradient(180deg, #1e293b 0%, #0f172a 100%);
-            border-radius: 12px;
-            border: 1px solid var(--border-color);
-        }
-
-        .hero h1 {
-            font-size: 2.5rem;
-            margin-bottom: 0.75rem;
-        }
-
-        .hero p {
-            color: var(--text-muted);
-            max-width: 600px;
-            margin: 0 auto 1.5rem auto;
-        }
-
-        /* Section Titles */
-        .section-title {
-            font-size: 1.75rem;
-            margin-bottom: 1.5rem;
-            border-bottom: 2px solid var(--accent-color);
-            display: inline-block;
-            padding-bottom: 0.25rem;
-        }
-
-        /* Grid Layouts */
-        .grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-            gap: 1.5rem;
-        }
-
-        .card {
-            background-color: var(--card-bg);
-            border: 1px solid var(--border-color);
-            border-radius: 8px;
-            padding: 1.5rem;
-            transition: transform 0.2s, border-color 0.2s;
-        }
-
-        .card:hover {
-            transform: translateY(-4px);
-            border-color: var(--accent-color);
-        }
-
-        .card h3 {
-            margin-bottom: 0.5rem;
-            color: var(--accent-color);
-        }
-
-        .card p {
-            color: var(--text-muted);
-            font-size: 0.95rem;
-            margin-bottom: 1rem;
-        }
-
-        .btn {
-            display: inline-block;
-            background-color: var(--accent-color);
-            color: #000;
-            padding: 0.5rem 1rem;
-            border-radius: 6px;
-            text-decoration: none;
-            font-weight: 600;
-            font-size: 0.9rem;
-            transition: background 0.2s;
-        }
-
-        .btn:hover {
-            background-color: var(--accent-hover);
-            color: #fff;
-        }
-
-        /* Rules & Terms Box */
-        .content-box {
-            background-color: var(--card-bg);
-            border: 1px solid var(--border-color);
-            border-radius: 8px;
-            padding: 1.5rem 2rem;
-        }
-
-        .content-box ul {
-            padding-left: 1.25rem;
-        }
-
-        .content-box li {
-            margin-bottom: 0.75rem;
-            color: var(--text-muted);
-        }
-
-        .content-box strong {
-            color: var(--text-color);
-        }
-
-        /* Footer */
-        footer {
-            text-align: center;
-            padding: 2rem;
-            color: var(--text-muted);
-            font-size: 0.875rem;
-            border-top: 1px solid var(--border-color);
-            margin-top: 2rem;
-        }
-
-        footer a {
-            color: var(--accent-color);
-            text-decoration: none;
-        }
+        :root { --bg: #0f172a; --card: #1e293b; --accent: #38bdf8; --text: #f8fafc; --muted: #94a3b8; --border: #334155; }
+        * { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Segoe UI', sans-serif; }
+        body { background: var(--bg); color: var(--text); line-height: 1.6; }
+        header { background: #090d16; border-bottom: 1px solid var(--border); position: sticky; top: 0; }
+        nav { max-width: 1100px; margin: 0 auto; display: flex; justify-content: space-between; align-items: center; padding: 1rem 1.5rem; }
+        .logo { font-size: 1.5rem; font-weight: 700; color: var(--accent); text-decoration: none; }
+        .nav-links { display: flex; gap: 1.5rem; list-style: none; }
+        .nav-links a { color: var(--text); text-decoration: none; font-weight: 500; }
+        .nav-links a.active, .nav-links a:hover { color: var(--accent); }
+        .container { max-width: 1100px; margin: 3rem auto; padding: 0 1.5rem; }
+        .hero { text-align: center; padding: 4rem 1.5rem; background: var(--card); border-radius: 12px; border: 1px solid var(--border); }
+        .hero h1 { font-size: 2.5rem; margin-bottom: 0.75rem; }
+        .hero p { color: var(--muted); max-width: 600px; margin: 0 auto 1.5rem auto; }
+        .btn { display: inline-block; background: var(--accent); color: #000; padding: 0.6rem 1.2rem; border-radius: 6px; text-decoration: none; font-weight: 600; }
+        footer { text-align: center; padding: 2rem; color: var(--muted); border-top: 1px solid var(--border); margin-top: 4rem; }
+        footer a { color: var(--accent); text-decoration: none; }
     </style>
 </head>
 <body>
-
-    <!-- Header & Navigation -->
     <header>
         <nav>
-            <a href="#home" class="logo">MakerFacts</a>
+            <a href="index.html" class="logo">MakerFacts</a>
             <ul class="nav-links">
-                <li><a href="#channels">Channels</a></li>
-                <li><a href="#series">Series</a></li>
-                <li><a href="#rules">Rules</a></li>
-                <li><a href="#legal">Legal & Policy</a></li>
+                <li><a href="index.html" class="active">Home</a></li>
+                <li><a href="channels.html">Channels</a></li>
+                <li><a href="series.html">Series</a></li>
+                <li><a href="rules.html">Rules</a></li>
+                <li><a href="legal.html">Legal</a></li>
             </ul>
         </nav>
     </header>
-
     <div class="container">
-        
-        <!-- Home / Hero Section -->
-        <section id="home" class="page-section hero">
+        <section class="hero">
             <h1>Welcome to MakerFacts</h1>
-            <p>The central directory, project timeline, and official resource hub for Makerplays content and community servers.</p>
-            <a href="#channels" class="btn">Explore Channels</a>
+            <p>The central directory, project timeline, and official resource hub for Makerplays content and community spaces.</p>
+            <a href="channels.html" class="btn">Explore Channels</a>
         </section>
-
-        <!-- Channels Section -->
-        <section id="channels" class="page-section">
-            <h2 class="section-title">Channel Directory</h2>
-            <div class="grid">
-                <div class="card">
-                    <h3>Makerplays</h3>
-                    <p>Main channel featuring Minecraft builds, challenges, and special creator events.</p>
-                    <a href="https://youtube.com" target="_blank" class="btn">Visit Channel</a>
-                </div>
-                <div class="card">
-                    <h3>MakerGamez</h3>
-                    <p>Dedicated gameplay, variety games, and full walkthrough series.</p>
-                    <a href="https://youtube.com" target="_blank" class="btn">Visit Channel</a>
-                </div>
-                <div class="card">
-                    <h3>MakerVR</h3>
-                    <p>Virtual reality adventures and immersive gameplay experiences.</p>
-                    <a href="https://youtube.com" target="_blank" class="btn">Visit Channel</a>
-                </div>
-                <div class="card">
-                    <h3>MakerMEMES</h3>
-                    <p>Short-form edits, highlight clips, and meme compilations.</p>
-                    <a href="https://youtube.com" target="_blank" class="btn">Visit Channel</a>
-                </div>
-            </div>
-        </section>
-
-        <!-- Series Section -->
-        <section id="series" class="page-section">
-            <h2 class="section-title">Featured Series</h2>
-            <div class="grid">
-                <div class="card">
-                    <h3>Epic Build Battle Series</h3>
-                    <p>Creators face off in high-stakes Minecraft build battles judged by the community.</p>
-                    <a href="https://youtube.com" target="_blank" class="btn">Watch Series</a>
-                </div>
-                <div class="card">
-                    <h3>Minecraft PE Challenges</h3>
-                    <p>Exploring custom rules, survival mechanics, and pocket edition gameplay.</p>
-                    <a href="https://youtube.com" target="_blank" class="btn">Watch Series</a>
-                </div>
-            </div>
-        </section>
-
-        <!-- Community Guidelines Section -->
-        <section id="rules" class="page-section">
-            <h2 class="section-title">Community Guidelines</h2>
-            <div class="content-box">
-                <ul>
-                    <li><strong>Respect All Members:</strong> Maintain a friendly environment across all chats and community spaces.</li>
-                    <li><strong>No Spam or Self-Promotion:</strong> Keep links and media restricted to designated channels.</li>
-                    <li><strong>Fair Play:</strong> Unapproved mods, cheats, or exploits on server spaces will result in a ban.</li>
-                </ul>
-            </div>
-        </section>
-
-        <!-- Legal & Policy Section -->
-        <section id="legal" class="page-section">
-            <h2 class="section-title">Legal & Privacy Policy</h2>
-            <div class="content-box">
-                <p style="margin-bottom: 1rem; color: var(--text-muted);">
-                    MakerFacts operates as an independent central landing page and policy hub for Makerplays content networks.
-                </p>
-                <ul>
-                    <li><strong>Data Collection:</strong> We do not collect personal identify information directly on this directory site.</li>
-                    <li><strong>External Links:</strong> External platform links (YouTube, Discord, Roblox) are subject to their respective terms and privacy policies.</li>
-                </ul>
-            </div>
-        </section>
-
     </div>
-
-    <!-- Footer -->
     <footer>
         <p>&copy; 2026 MakerFacts Network. All rights reserved.</p>
-        <p style="margin-top: 0.5rem;">
-            <a href="#legal">Privacy Policy</a> | <a href="#legal">Terms of Service</a>
-        </p>
+        <p><a href="legal.html">Privacy Policy & Terms</a></p>
     </footer>
-
 </body>
 </html>
