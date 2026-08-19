@@ -1,0 +1,183 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>MakerFacts | Knowledge Base</title>
+  <!-- Tailwind CSS for sleek, modern styling -->
+  <script src="https://jsdelivr.net"></script>
+  <style>
+    .gradient-bg {
+      background: linear-gradient(135deg, #0f172a 0%, #1e1b4b 100%);
+    }
+  </style>
+</head>
+<body class="gradient-bg text-slate-100 min-h-screen font-sans selection:bg-indigo-500 selection:text-white">
+
+  <!-- Navigation Bar -->
+  <nav class="border-b border-slate-800 bg-slate-950/50 backdrop-blur-md sticky top-0 z-50">
+    <div class="max-w-6xl mx-auto px-4 py-4 flex justify-between items-center">
+      <div class="flex items-center space-x-2">
+        <span class="text-2xl font-black tracking-wider text-transparent bg-clip-text bg-gradient-to-r from-indigo-400 to-cyan-400">MAKERFACTS</span>
+      </div>
+      <div class="space-x-6 text-sm font-medium text-slate-300">
+        <a href="#explore" class="hover:text-cyan-400 transition-colors">Explore</a>
+        <a href="#submit" class="hover:text-indigo-400 transition-colors">Contribute</a>
+      </div>
+    </div>
+  </nav>
+
+  <!-- Hero Section -->
+  <header class="max-w-4xl mx-auto text-center px-4 py-20">
+    <h1 class="text-5xl md:text-6xl font-extrabold tracking-tight mb-6">
+      Discover the Untold Truths of <span class="text-transparent bg-clip-text bg-gradient-to-r from-cyan-400 to-indigo-400">Making & Building</span>
+    </h1>
+    <p class="text-lg text-slate-400 max-w-2xl mx-auto mb-8">
+      A curated open-source repository of verification statistics, fabrication timelines, and industrial hardware history.
+    </p>
+    <div class="flex justify-center gap-4">
+      <a href="#explore" class="bg-indigo-600 hover:bg-indigo-500 text-white font-semibold px-6 py-3 rounded-lg shadow-lg shadow-indigo-600/30 transition-all transform hover:-translate-y-0.5">
+        Browse Facts
+      </a>
+      <a href="#submit" class="bg-slate-800 hover:bg-slate-700 text-slate-200 font-semibold px-6 py-3 rounded-lg border border-slate-700 transition-all">
+        Submit Data
+      </a>
+    </div>
+  </header>
+
+  <!-- Main Content Dashboard -->
+  <main class="max-w-6xl mx-auto px-4 pb-24">
+    
+    <!-- Filter Toolbar -->
+    <div id="explore" class="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4 mb-10 border-b border-slate-800 pb-6">
+      <div>
+        <h2 class="text-2xl font-bold">Verified Database</h2>
+        <p class="text-sm text-slate-400">Click filters to sort through active data points.</p>
+      </div>
+      <div class="flex gap-2">
+        <button onclick="filterFacts('all')" class="filter-btn bg-indigo-600 text-white text-xs font-bold uppercase tracking-wider px-4 py-2 rounded-md transition-all">All</button>
+        <button onclick="filterFacts('hardware')" class="filter-btn bg-slate-800 hover:bg-slate-700 text-slate-300 text-xs font-bold uppercase tracking-wider px-4 py-2 rounded-md transition-all">Hardware</button>
+        <button onclick="filterFacts('software')" class="filter-btn bg-slate-800 hover:bg-slate-700 text-slate-300 text-xs font-bold uppercase tracking-wider px-4 py-2 rounded-md transition-all">Software</button>
+      </div>
+    </div>
+
+    <!-- Interactive Grid Area -->
+    <div id="factsGrid" class="grid md:grid-cols-2 lg:grid-cols-3 gap-6 mb-20">
+      <!-- Dynamic cards render here -->
+    </div>
+
+    <!-- Data Submission Section -->
+    <section id="submit" class="max-w-xl mx-auto bg-slate-900/60 border border-slate-800 rounded-2xl p-8 backdrop-blur-sm">
+      <div class="text-center mb-6">
+        <h3 class="text-xl font-bold">Log a New Fact</h3>
+        <p class="text-sm text-slate-400 mt-1">Help expand the knowledge base. Submissions require source confirmation.</p>
+      </div>
+      
+      <form id="factForm" onsubmit="handleFormSubmit(event)" class="space-y-4">
+        <div>
+          <label class="block text-xs font-semibold uppercase tracking-wider text-slate-400 mb-2">Category</label>
+          <select id="formCategory" class="w-full bg-slate-950 border border-slate-800 rounded-lg px-4 py-3 text-slate-200 focus:outline-none focus:border-indigo-500 transition-colors">
+            <option value="hardware">Hardware Fabrication</option>
+            <option value="software">Software Architecture</option>
+          </select>
+        </div>
+        <div>
+          <label class="block text-xs font-semibold uppercase tracking-wider text-slate-400 mb-2">The Fact Summary</label>
+          <textarea id="formText" rows="3" required placeholder="Example: 3D printers using coreXY geometry achieve 30% higher acceleration thresholds..." class="w-full bg-slate-950 border border-slate-800 rounded-lg px-4 py-3 text-slate-200 placeholder-slate-600 focus:outline-none focus:border-indigo-500 transition-colors"></textarea>
+        </div>
+        <button type="submit" class="w-full bg-gradient-to-r from-indigo-600 to-cyan-600 hover:from-indigo-500 hover:to-cyan-500 text-white font-bold py-3 rounded-lg shadow-lg shadow-cyan-950 transition-all">
+          Broadcast to Registry
+        </button>
+      </form>
+    </section>
+
+  </main>
+
+  <!-- Footer -->
+  <footer class="border-t border-slate-900 bg-slate-950 text-center py-8 text-xs text-slate-500">
+    <p>&copy; 2026 MakerFacts Network. All records cryptographically timestamped.</p>
+  </footer>
+
+  <!-- Script Architecture -->
+  <script>
+    // Initial Core Database State
+    const initialDataset = [
+      { id: 1, category: 'hardware', text: 'The first CNC machines developed in the 1940s utilized punched paper tape for automated data routing protocols.' },
+      { id: 2, category: 'software', text: 'Over 73% of modern embedded firmware systems leverage direct micro-controller register mapping over standard abstractions.' },
+      { id: 3, category: 'hardware', text: 'Anodizing aluminum creates a controlled oxide structural layer that expands surface area hardness by up to 300%.' }
+    ];
+
+    let liveDataset = [...initialDataset];
+
+    // Render Engine
+    function renderCards(dataToRender) {
+      const grid = document.getElementById('factsGrid');
+      grid.innerHTML = '';
+
+      dataToRender.forEach(item => {
+        const card = document.createElement('div');
+        card.className = 'bg-slate-900/40 border border-slate-800/80 p-6 rounded-xl flex flex-col justify-between hover:border-slate-700 transition-all hover:shadow-xl hover:shadow-indigo-950/20 group';
+        
+        const badgeColor = item.category === 'hardware' ? 'text-cyan-400 bg-cyan-950/50 border-cyan-900' : 'text-indigo-400 bg-indigo-950/50 border-indigo-900';
+        
+        card.innerHTML = `
+          <div>
+            <span class="inline-block text-[10px] font-bold uppercase tracking-widest border px-2.5 py-0.5 rounded-full mb-4 ${badgeColor}">
+              ${item.category}
+            </span>
+            <p class="text-slate-300 leading-relaxed text-sm group-hover:text-slate-100 transition-colors">${item.text}</p>
+          </div>
+          <div class="mt-6 pt-4 border-t border-slate-800/50 flex justify-between items-center text-xs text-slate-500">
+            <span>Verified Entry #${item.id}</span>
+            <span class="text-indigo-400/60 font-semibold">Active</span>
+          </div>
+        `;
+        grid.appendChild(card);
+      });
+    }
+
+    // Filter Logic
+    function filterFacts(category) {
+      // Update active button state styling
+      const buttons = document.querySelectorAll('.filter-btn');
+      buttons.forEach(btn => {
+        if(btn.textContent.toLowerCase() === category) {
+          btn.className = "filter-btn bg-indigo-600 text-white text-xs font-bold uppercase tracking-wider px-4 py-2 rounded-md transition-all";
+        } else {
+          btn.className = "filter-btn bg-slate-800 hover:bg-slate-700 text-slate-300 text-xs font-bold uppercase tracking-wider px-4 py-2 rounded-md transition-all";
+        }
+      });
+
+      if (category === 'all') {
+        renderCards(liveDataset);
+      } else {
+        const filtered = liveDataset.filter(fact => fact.category === category);
+        renderCards(filtered);
+      }
+    }
+
+    // Interactive Submission Engine
+    function handleFormSubmit(e) {
+      e.preventDefault();
+      const textInput = document.getElementById('formText');
+      const categoryInput = document.getElementById('formCategory');
+
+      const newFact = {
+        id: liveDataset.length + 1,
+        category: categoryInput.value,
+        text: textInput.value
+      };
+
+      liveDataset.unshift(newFact); // Add to the front
+      renderCards(liveDataset);
+      
+      // Reset inputs and jump to view changes
+      textInput.value = '';
+      document.getElementById('explore').scrollIntoView({ behavior: 'smooth' });
+    }
+
+    // Initialize layout execution on runtime
+    renderCards(liveDataset);
+  </script>
+</body>
+</html>
