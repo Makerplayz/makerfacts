@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MakerFacts | Contact</title>
+    <style>
+        :root { --bg: #0f172a; --card: #1e293b; --accent: #38bdf8; --text: #f8fafc; --muted: #94a3b8; --border: #334155; }
+        * { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Segoe UI', sans-serif; }
+        body { background: var(--bg); color: var(--text); line-height: 1.6; }
+        header { background: #090d16; border-bottom: 1px solid var(--border); position: sticky; top: 0; z-index: 100; }
+        nav { max-width: 1100px; margin: 0 auto; display: flex; justify-content: space-between; align-items: center; padding: 1rem 1.5rem; }
+        .logo { font-size: 1.5rem; font-weight: 700; color: var(--accent); text-decoration: none; }
+        .nav-links { display: flex; gap: 1.5rem; list-style: none; }
+        .nav-links a { color: var(--text); text-decoration: none; font-weight: 500; }
+        .nav-links a.active, .nav-links a:hover { color: var(--accent); }
+        .container { max-width: 1100px; margin: 3rem auto; padding: 0 1.5rem; }
+        .section-title { font-size: 1.75rem; margin-bottom: 1.5rem; border-bottom: 2px solid var(--accent); display: inline-block; }
+        
+        /* Grid Layout for Quick Contact Links */
+        .grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: 1.5rem; margin-bottom: 3rem; }
+        .card { background: var(--card); border: 1px solid var(--border); border-radius: 8px; padding: 1.5rem; text-align: center; }
+        .card h3 { color: var(--accent); margin-bottom: 0.5rem; }
+        .card p { color: var(--muted); font-size: 0.95rem; margin-bottom: 1rem; }
+        .btn { display: inline-block; background: var(--accent); color: #000; padding: 0.5rem 1rem; border-radius: 6px; text-decoration: none; font-weight: 600; font-size: 0.9rem; }
+        
+        /* Contact Form */
+        .form-box { background: var(--card); border: 1px solid var(--border); border-radius: 8px; padding: 2rem; max-width: 600px; margin: 0 auto; }
+        .form-group { margin-bottom: 1.25rem; }
+        .form-group label { display: block; margin-bottom: 0.5rem; font-weight: 500; color: var(--text); }
+        .form-group input, .form-group textarea { width: 100%; padding: 0.75rem; background: #0f172a; border: 1px solid var(--border); border-radius: 6px; color: var(--text); font-size: 1rem; }
+        .form-group input:focus, .form-group textarea:focus { outline: none; border-color: var(--accent); }
+        .submit-btn { width: 100%; background: var(--accent); color: #000; border: none; padding: 0.75rem; border-radius: 6px; font-weight: 700; font-size: 1rem; cursor: pointer; transition: background 0.2s; }
+        .submit-btn:hover { background: #0284c7; color: #fff; }
+
+        footer { text-align: center; padding: 2rem; color: var(--muted); border-top: 1px solid var(--border); margin-top: 4rem; }
+        footer a { color: var(--accent); text-decoration: none; }
+    </style>
+</head>
+<body>
+    <header>
+        <nav>
+            <a href="index.html" class="logo">MakerFacts</a>
+            <ul class="nav-links">
+                <li><a href="index.html">Home</a></li>
+                <li><a href="channels.html">Channels</a></li>
+                <li><a href="series.html">Series</a></li>
+                <li><a href="contact.html" class="active">Contact</a></li>
+                <li><a href="legal.html">Legal</a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <div class="container">
+        <h1 class="section-title">Get in Touch</h1>
+        
+        <!-- Quick Contact Channels -->
+        <div class="grid">
+            <div class="card">
+                <h3>Discord Community</h3>
+                <p>Join the official server to chat directly with moderators and the community.</p>
+                <a href="https://discord.com" target="_blank" class="btn">Join Discord</a>
+            </div>
+            <div class="card">
+                <h3>YouTube Channel</h3>
+                <p>Leave a comment on the latest video for creator responses.</p>
+                <a href="https://youtube.com" target="_blank" class="btn">Visit YouTube</a>
+            </div>
+            <div class="card">
+                <h3>TikTok / Shorts</h3>
+                <p>Reach out through short-form clips and messaging.</p>
+                <a href="https://tiktok.com" target="_blank" class="btn">Visit TikTok</a>
+            </div>
+        </div>
+
+        <!-- Direct Message Form -->
+        <div class="form-box">
+            <h2 style="margin-bottom: 1rem; text-align: center;">Send a Message</h2>
+            <form action="https://formspree.io/f/your-form-id" method="POST">
+                <div class="form-group">
+                    <label for="name">Your Name / Username</label>
+                    <input type="text" id="name" name="name" placeholder="e.g. Gamer123" required>
+                </div>
+                <div class="form-group">
+                    <label for="email">Your Email</label>
+                    <input type="email" id="email" name="_replyto" placeholder="yourname@email.com" required>
+                </div>
+                <div class="form-group">
+                    <label for="message">Message</label>
+                    <textarea id="message" name="message" rows="5" placeholder="Business inquiries, feedback, or questions..." required></textarea>
+                </div>
+                <button type="submit" class="submit-btn">Send Message</button>
+            </form>
+        </div>
+    </div>
+
+    <footer>
+        <p>&copy; 2026 MakerFacts Network. All rights reserved.</p>
+        <p><a href="legal.html">Privacy Policy & Terms</a></p>
+    </footer>
+</body>
+</html>
