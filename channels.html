@@ -69,3 +69,64 @@
     </footer>
 </body>
 </html>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MakerFacts | Series</title>
+    <style>
+        :root { --bg: #0f172a; --card: #1e293b; --accent: #38bdf8; --text: #f8fafc; --muted: #94a3b8; --border: #334155; }
+        * { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Segoe UI', sans-serif; }
+        body { background: var(--bg); color: var(--text); line-height: 1.6; }
+        header { background: #090d16; border-bottom: 1px solid var(--border); position: sticky; top: 0; }
+        nav { max-width: 1100px; margin: 0 auto; display: flex; justify-content: space-between; align-items: center; padding: 1rem 1.5rem; }
+        .logo { font-size: 1.5rem; font-weight: 700; color: var(--accent); text-decoration: none; }
+        .nav-links { display: flex; gap: 1.5rem; list-style: none; }
+        .nav-links a { color: var(--text); text-decoration: none; font-weight: 500; }
+        .nav-links a.active, .nav-links a:hover { color: var(--accent); }
+        .container { max-width: 1100px; margin: 3rem auto; padding: 0 1.5rem; }
+        .section-title { font-size: 1.75rem; margin-bottom: 1.5rem; border-bottom: 2px solid var(--accent); display: inline-block; }
+        .grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: 1.5rem; }
+        .card { background: var(--card); border: 1px solid var(--border); border-radius: 8px; padding: 1.5rem; }
+        .card h3 { color: var(--accent); margin-bottom: 0.5rem; }
+        .card p { color: var(--muted); font-size: 0.95rem; margin-bottom: 1rem; }
+        .btn { display: inline-block; background: var(--accent); color: #000; padding: 0.5rem 1rem; border-radius: 6px; text-decoration: none; font-weight: 600; font-size: 0.9rem; }
+        footer { text-align: center; padding: 2rem; color: var(--muted); border-top: 1px solid var(--border); margin-top: 4rem; }
+        footer a { color: var(--accent); text-decoration: none; }
+    </style>
+</head>
+<body>
+    <header>
+        <nav>
+            <a href="index.html" class="logo">MakerFacts</a>
+            <ul class="nav-links">
+                <li><a href="index.html">Home</a></li>
+                <li><a href="channels.html">Channels</a></li>
+                <li><a href="series.html" class="active">Series</a></li>
+                <li><a href="rules.html">Rules</a></li>
+                <li><a href="legal.html">Legal</a></li>
+            </ul>
+        </nav>
+    </header>
+    <div class="container">
+        <h1 class="section-title">Featured Series</h1>
+        <div class="grid">
+            <div class="card">
+                <h3>Epic Build Battle Series</h3>
+                <p>Creators face off in high-stakes Minecraft build battles judged by the community.</p>
+                <a href="https://youtube.com" target="_blank" class="btn">Watch Series</a>
+            </div>
+            <div class="card">
+                <h3>Minecraft PE Challenges</h3>
+                <p>Exploring custom rules, survival mechanics, and pocket edition gameplay.</p>
+                <a href="https://youtube.com" target="_blank" class="btn">Watch Series</a>
+            </div>
+        </div>
+    </div>
+    <footer>
+        <p>&copy; 2026 MakerFacts Network. All rights reserved.</p>
+        <p><a href="legal.html">Privacy Policy & Terms</a></p>
+    </footer>
+</body>
+</html>
