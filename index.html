@@ -3,8 +3,8 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>MakerFacts | Home</title>
-<style>
+    <title>MakerFacts | Official Network Hub</title>
+    <style>
         :root { 
             --bg: #0d0d0d; 
             --card: #181818; 
@@ -20,8 +20,27 @@
         
         /* Navigation */
         header { background: #000000; border-bottom: 1px solid var(--border); position: sticky; top: 0; z-index: 100; }
-        nav { max-width: 1100px; margin: 0 auto; display: flex; justify-content: space-between; align-items: center; padding: 1rem 1.5rem; }
-        .logo { font-size: 1.5rem; font-weight: 800; color: var(--accent); text-decoration: none; text-transform: uppercase; letter-spacing: 0.5px; }
+        nav { max-width: 1100px; margin: 0 auto; display: flex; justify-content: space-between; align-items: center; padding: 0.75rem 1.5rem; }
+        
+        /* Logo Link & Image Alignment */
+        .logo { 
+            display: flex; 
+            align-items: center; 
+            gap: 10px; 
+            font-size: 1.5rem; 
+            font-weight: 800; 
+            color: var(--accent); 
+            text-decoration: none; 
+            text-transform: uppercase; 
+            letter-spacing: 0.5px; 
+        }
+        .logo-img { 
+            height: 38px; 
+            width: auto; 
+            object-fit: contain; 
+            image-rendering: pixelated; /* Keeps pixel art crisp */
+        }
+
         .nav-links { display: flex; gap: 1.5rem; list-style: none; }
         .nav-links a { color: var(--text); text-decoration: none; font-weight: 600; transition: color 0.2s; }
         .nav-links a.active, .nav-links a:hover { color: var(--accent); }
@@ -94,47 +113,60 @@
     </style>
 </head>
 <body>
-<header>
-    <nav>
-        <a href="index.html" class="logo">
-            <img src="6eaa2a77-c03f-4b7e-9171-235272f76a17.png" alt="MakerFacts" class="logo-img"
-        </a>
-        <ul class="nav-links">
-            <li><a href="index.html">Home</a></li>
-            <li><a href="aboutme.html">About</a></li>
-            <li><a href="channels.html">Channels</a></li>
-            <li><a href="contact.html">Contact</a></li>
-            <li><a href="legal.html">Legal</a></li>
-        </ul>
-    </nav>
-</header>
+    <header>
+        <nav>
+            <a href="index.html" class="logo">
+                <img src="logo.png" alt="MakerFacts Logo" class="logo-img">
+                MakerFacts
+            </a>
+            <ul class="nav-links">
+                <li><a href="index.html" class="active">Home</a></li>
+                <li><a href="aboutme.html">About</a></li>
+                <li><a href="channels.html">Channels</a></li>
+                <li><a href="contact.html">Contact</a></li>
+                <li><a href="legal.html">Legal</a></li>
+            </ul>
+        </nav>
+    </header>
 
     <div class="container">
-        <section class="hero">
+        <!-- Hero Section -->
+        <div class="hero">
             <h1>Welcome to MakerFacts</h1>
-            <p>The central directory, project hub, and official landing page for Makerplays content networks, gaming channels, and community projects.</p>
-            <div class="btn-group">
+            <p>The ultimate hub for gaming projects, video series updates, community server developments, and channel archives.</p>
+            <div class="hero-btns">
                 <a href="channels.html" class="btn">Explore Channels</a>
-                <a href="aboutme.html" class="btn btn-secondary">About the Creator</a>
+                <a href="aboutme.html" class="btn btn-outline">Learn More</a>
             </div>
-        </section>
+        </div>
 
-        <h2 class="section-title">Directory Overview</h2>
+        <!-- Featured Section -->
+        <h2 class="section-title">Featured Content</h2>
+        <p class="section-subtitle">Highlights and ongoing projects across the Maker network.</p>
+
         <div class="grid">
             <div class="card">
-                <h3>🙋‍♂️ About Makerplays</h3>
-                <p>Learn about the journey, building background, and history behind the channel network.</p>
-                <a href="aboutme.html" class="btn">Read About Me</a>
+                <div>
+                    <h3>Epic Build Battle Series</h3>
+                    <p>Creators face off in high-stakes Minecraft PE build challenges judged by the community.</p>
+                </div>
+                <a href="channels.html" class="btn">Watch Highlights</a>
             </div>
+
             <div class="card">
-                <h3>📺 Multi-Channel Network</h3>
-                <p>Explore active channels covering Minecraft builds, variety gaming, VR adventures, and memes.</p>
-                <a href="channels.html" class="btn">View Channels</a>
+                <div>
+                    <h3>Velocity SMP</h3>
+                    <p>A dedicated survival multiplayer environment crafted for content creators and community events.</p>
+                </div>
+                <a href="aboutme.html" class="btn btn-outline">Server Details</a>
             </div>
+
             <div class="card">
-                <h3>💬 Get in Touch</h3>
-                <p>Connect with the community on Discord or send direct business and creator inquiries.</p>
-                <a href="contact.html" class="btn">Contact Info</a>
+                <div>
+                    <h3>Shorts & Meme Hub</h3>
+                    <p>Fast-paced gaming edits, viral moments, and community highlights updated weekly.</p>
+                </div>
+                <a href="channels.html" class="btn">View Shorts</a>
             </div>
         </div>
     </div>
