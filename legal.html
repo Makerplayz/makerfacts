@@ -4,26 +4,94 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>MakerFacts | Legal & Policy</title>
-    <style>
-        :root { --bg: #0f172a; --card: #1e293b; --accent: #38bdf8; --text: #f8fafc; --muted: #94a3b8; --border: #334155; }
-        * { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Segoe UI', sans-serif; }
-        body { background: var(--bg); color: var(--text); line-height: 1.6; }
-        header { background: #090d16; border-bottom: 1px solid var(--border); position: sticky; top: 0; }
-        nav { max-width: 1100px; margin: 0 auto; display: flex; justify-content: space-between; align-items: center; padding: 1rem 1.5rem; }
-        .logo { font-size: 1.5rem; font-weight: 700; color: var(--accent); text-decoration: none; }
-        .nav-links { display: flex; gap: 1.5rem; list-style: none; }
-        .nav-links a { color: var(--text); text-decoration: none; font-weight: 500; }
-        .nav-links a.active, .nav-links a:hover { color: var(--accent); }
-        .container { max-width: 1100px; margin: 3rem auto; padding: 0 1.5rem; }
-        .section-title { font-size: 1.75rem; margin-bottom: 1.5rem; border-bottom: 2px solid var(--accent); display: inline-block; }
-        .content-box { background: var(--card); border: 1px solid var(--border); border-radius: 8px; padding: 1.5rem 2rem; }
-        .content-box p { color: var(--muted); margin-bottom: 1rem; }
-        .content-box ul { padding-left: 1.25rem; }
-        .content-box li { margin-bottom: 0.75rem; color: var(--muted); }
-        .content-box strong { color: var(--text); }
-        footer { text-align: center; padding: 2rem; color: var(--muted); border-top: 1px solid var(--border); margin-top: 4rem; }
-        footer a { color: var(--accent); text-decoration: none; }
-    </style>
+<style>
+    :root { 
+        --bg: #0d0d0d; 
+        --card: #181818; 
+        --accent: #facc15; 
+        --accent-hover: #eab308; 
+        --text: #ffffff; 
+        --muted: #a1a1aa; 
+        --border: #27272a; 
+        --yt-red: #ff0000;
+    }
+    * { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Segoe UI', sans-serif; }
+    body { background: var(--bg); color: var(--text); line-height: 1.6; }
+    
+    /* Navigation */
+    header { background: #000000; border-bottom: 1px solid var(--border); position: sticky; top: 0; z-index: 100; }
+    nav { max-width: 1100px; margin: 0 auto; display: flex; justify-content: space-between; align-items: center; padding: 1rem 1.5rem; }
+    .logo { font-size: 1.5rem; font-weight: 800; color: var(--accent); text-decoration: none; text-transform: uppercase; letter-spacing: 0.5px; }
+    .nav-links { display: flex; gap: 1.5rem; list-style: none; }
+    .nav-links a { color: var(--text); text-decoration: none; font-weight: 600; transition: color 0.2s; }
+    .nav-links a.active, .nav-links a:hover { color: var(--accent); }
+    
+    /* Page Container & Titles */
+    .container { max-width: 1100px; margin: 3rem auto; padding: 0 1.5rem; }
+    .section-title { font-size: 1.75rem; margin-bottom: 0.5rem; border-bottom: 3px solid var(--accent); display: inline-block; color: var(--accent); text-transform: uppercase; letter-spacing: 0.5px; }
+    .section-subtitle { color: var(--muted); margin-bottom: 2rem; font-size: 1rem; }
+    
+    /* Cards & Grids */
+    .grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 1.5rem; }
+    .card, .channel-card { 
+        background: var(--card); 
+        border: 1px solid var(--border); 
+        border-radius: 10px; 
+        padding: 1.5rem; 
+        transition: transform 0.2s, border-color 0.2s;
+    }
+    .card:hover, .channel-card:hover { 
+        transform: translateY(-3px); 
+        border-color: var(--accent); 
+    }
+    .card h3, .channel-card h3 { color: var(--accent); margin-bottom: 0.5rem; }
+    .card p, .channel-card p { color: var(--muted); font-size: 0.95rem; line-height: 1.5; }
+    
+    /* Category Badges */
+    .badge { 
+        display: inline-block; 
+        padding: 0.25rem 0.6rem; 
+        font-size: 0.75rem; 
+        font-weight: 800; 
+        border-radius: 20px; 
+        background: rgba(250, 204, 21, 0.15); 
+        color: var(--accent); 
+        margin-bottom: 0.75rem; 
+        text-transform: uppercase;
+    }
+    
+    /* Action Buttons */
+    .btn { 
+        display: inline-flex; 
+        align-items: center; 
+        justify-content: center;
+        background: var(--accent); 
+        color: #000000; 
+        padding: 0.5rem 1rem; 
+        border-radius: 6px; 
+        text-decoration: none; 
+        font-weight: 700; 
+        font-size: 0.9rem; 
+        transition: background 0.2s; 
+    }
+    .btn:hover { background: var(--accent-hover); color: #000000; }
+    .btn-yt { background: #000000; border: 1px solid var(--border); color: var(--text); }
+    .btn-yt:hover { background: var(--yt-red); border-color: var(--yt-red); color: #ffffff; }
+
+    /* Forms */
+    .form-box { background: var(--card); border: 1px solid var(--border); border-radius: 12px; padding: 2rem; max-width: 600px; margin: 0 auto; }
+    .form-group { margin-bottom: 1.25rem; }
+    .form-group label { display: block; margin-bottom: 0.5rem; font-weight: 600; color: var(--text); }
+    .form-group input, .form-group textarea { width: 100%; padding: 0.75rem; background: #000000; border: 1px solid var(--border); border-radius: 6px; color: var(--text); font-size: 1rem; }
+    .form-group input:focus, .form-group textarea:focus { outline: none; border-color: var(--accent); }
+    .submit-btn { width: 100%; background: var(--accent); color: #000000; border: none; padding: 0.75rem; border-radius: 6px; font-weight: 800; font-size: 1rem; cursor: pointer; transition: background 0.2s; text-transform: uppercase; }
+    .submit-btn:hover { background: var(--accent-hover); }
+
+    /* Footer */
+    footer { text-align: center; padding: 2rem; color: var(--muted); border-top: 1px solid var(--border); margin-top: 4rem; }
+    footer a { color: var(--accent); text-decoration: none; font-weight: 600; }
+    footer a:hover { text-decoration: underline; }
+</style>
 </head>
 <body>
     <header>
