@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MakerFacts | Community Help & Discussion</title>
+    <style>
+        :root { 
+            --bg: #0d0d0d; 
+            --card: #181818; 
+            --accent: #facc15; 
+            --accent-hover: #eab308; 
+            --text: #ffffff; 
+            --muted: #a1a1aa; 
+            --border: #27272a; 
+        }
+        * { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Segoe UI', sans-serif; }
+        body { background: var(--bg); color: var(--text); line-height: 1.6; }
+        
+        /* Navigation */
+        header { background: #000000; border-bottom: 1px solid var(--border); position: sticky; top: 0; z-index: 100; }
+        nav { max-width: 1100px; margin: 0 auto; display: flex; justify-content: space-between; align-items: center; padding: 0.75rem 1.5rem; }
+        
+        .logo { 
+            display: flex; 
+            align-items: center; 
+            gap: 10px; 
+            font-size: 1.5rem; 
+            font-weight: 800; 
+            color: var(--accent); 
+            text-decoration: none; 
+            text-transform: uppercase; 
+            letter-spacing: 0.5px; 
+        }
+        .logo-img { 
+            height: 60px; 
+            width: auto; 
+            object-fit: contain; 
+            image-rendering: pixelated; 
+        }
+
+        .nav-links { display: flex; gap: 1.5rem; list-style: none; }
+        .nav-links a { color: var(--text); text-decoration: none; font-weight: 600; transition: color 0.2s; }
+        .nav-links a.active, .nav-links a:hover { color: var(--accent); }
+        
+        /* Container */
+        .container { max-width: 800px; margin: 3rem auto; padding: 0 1.5rem; }
+        
+        /* Section Header */
+        .section-title { font-size: 1.75rem; margin-bottom: 0.5rem; border-bottom: 3px solid var(--accent); display: inline-block; color: var(--accent); text-transform: uppercase; letter-spacing: 0.5px; }
+        .section-subtitle { color: var(--muted); margin-bottom: 2rem; font-size: 1rem; }
+
+        /* Comment Section Container */
+        .comment-box {
+            background: var(--card);
+            border: 1px solid var(--border);
+            border-radius: 12px;
+            padding: 1.5rem;
+            margin-bottom: 2rem;
+            min-height: 200px;
+        }
+
+        /* Footer */
+        footer { text-align: center; padding: 2rem; color: var(--muted); border-top: 1px solid var(--border); margin-top: 4rem; }
+        footer a { color: var(--accent); text-decoration: none; font-weight: 600; }
+        footer a:hover { text-decoration: underline; }
+    </style>
+</head>
+<body>
+    <header>
+        <nav>
+            <a href="index.html" class="logo">
+                <img src="logo.png" alt="" class="logo-img">
+                MakerFacts
+            </a>
+            <ul class="nav-links">
+                <li><a href="index.html">Home</a></li>
+                <li><a href="aboutme.html">About</a></li>
+                <li><a href="CommunityHelp.html" class="active">Community Help</a></li>
+                <li><a href="channels.html">Channels</a></li>
+                <li><a href="contact.html">Contact</a></li>
+                <li><a href="legal.html">Legal</a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <div class="container">
+        <h2 class="section-title">Community Help & Discussion</h2>
+        <p class="section-subtitle">Ask questions, share server feedback, or start a topic with the network.</p>
+
+        <!-- LIVE PUBLIC COMMENT BOX -->
+        <div class="comment-box">
+            <script src="https://utteranc.es/client.js"
+                    repo="Makerplayz/makerfacts"
+                    issue-term="pathname"
+                    theme="github-dark"
+                    crossorigin="anonymous"
+                    async>
+            </script>
+        </div>
+    </div>
+
+    <footer>
+        <p>&copy; 2026 Maker Corp. All Rights Reserved.</p>
+        <p><a href="legal.html">Privacy Policy & Terms</a></p>
+    </footer>
+</body>
+</html>
