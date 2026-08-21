@@ -4,6 +4,10 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>MakerFacts — Account Access System</title>
+
+    <!-- Supabase JS Library CDN -->
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+
     <style>
         :root {
             --bg: #0d0d0d;
@@ -36,7 +40,6 @@
             gap: 14px;
         }
 
-        /* HEADER BUTTON & USER MENU */
         .header-login-btn {
             background: var(--accent);
             color: #000000;
@@ -152,7 +155,6 @@
         .modal-brand-logo { font-size: 1.6rem; font-weight: 800; color: var(--accent); text-transform: uppercase; }
         .brand-subtitle { font-size: 0.85rem; color: var(--muted); margin-top: 4px; }
 
-        /* TAB CONTROLS */
         .auth-tabs {
             display: flex;
             background: #09090b;
@@ -190,13 +192,10 @@
 </head>
 <body>
 
-    <!-- HEADER / NAVIGATION -->
     <header class="site-header">
         <div class="brand-wrapper">
-            <!-- LOG IN / SIGN UP BUTTON (WHEN LOGGED OUT) -->
             <button class="header-login-btn" id="header-auth-btn" onclick="openLoginModal('login')">Log In</button>
 
-            <!-- USER MENU BADGE (WHEN LOGGED IN) -->
             <div class="user-menu-wrapper" id="header-user-menu">
                 <button class="user-badge" onclick="toggleUserDropdown()">
                     <span id="user-display-name">MakerUser</span> ▾
@@ -206,12 +205,10 @@
                 </div>
             </div>
             
-            <!-- LOGO -->
             <a href="#" class="brand-logo">MakerFacts</a>
         </div>
     </header>
 
-    <!-- AUTH POPUP MODAL -->
     <div class="modal-overlay" id="login-modal" onclick="closeLoginModalOnOutsideClick(event)">
         <div class="auth-card">
             <button class="modal-close-btn" onclick="closeLoginModal()">✕</button>
@@ -247,40 +244,19 @@
             </form>
 
             <div class="form-footer" id="forgot-link-wrapper">
-                <a href="#" onclick="alert('Password reset instructions sent to your email.')">Forgot password?</a>
+                <a href="#" onclick="handlePasswordReset()">Forgot password?</a>
             </div>
         </div>
     </div>
 
 <script>
+    // INITIALIZE SUPABASE CLIENT
+    const SUPABASE_URL = 'YOUR_SUPABASE_URL';
+    const SUPABASE_ANON_KEY = 'YOUR_SUPABASE_ANON_KEY';
+    const _supabase = supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
+
     let currentMode = 'login';
 
-    // Local Storage Account System
-    function getStoredUsers() {
-        return JSON.parse(localStorage.getItem('makerfacts_users') || '[]');
-    }
-
-    function saveUser(user) {
-        const users = getStoredUsers();
-        users.push(user);
-        localStorage.setItem('makerfacts_users', JSON.stringify(users));
-    }
-
-    function getActiveSession() {
-        return JSON.parse(localStorage.getItem('makerfacts_session') || 'null');
-    }
-
-    function setActiveSession(user) {
-        localStorage.setItem('makerfacts_session', JSON.stringify(user));
-        updateHeaderUI();
-    }
-
-    function clearSession() {
-        localStorage.removeItem('makerfacts_session');
-        updateHeaderUI();
-    }
-
-    // Modal & Tab Controls
     function openLoginModal(mode = 'login') {
         switchTab(mode);
         document.getElementById('login-modal').classList.add('active');
@@ -326,82 +302,88 @@
         }
     }
 
-    // Auth Submission Logic
-    function handleAuth(event) {
+    // SIGN UP / LOG IN HANDLER
+    async function handleAuth(event) {
         event.preventDefault();
-        const email = document.getElementById('email').value.trim().toLowerCase();
+        const email = document.getElementById('email').value.trim();
         const password = document.getElementById('password').value.trim();
         const username = document.getElementById('username').value.trim();
         const statusMsg = document.getElementById('status-msg');
 
-        const users = getStoredUsers();
+        statusMsg.className = 'status-message success';
+        statusMsg.innerText = 'Connecting...';
 
         if (currentMode === 'signup') {
-            const userExists = users.some(u => u.email === email);
-            if (userExists) {
+            const { data, error } = await _supabase.auth.signUp({
+                email: email,
+                password: password,
+                options: {
+                    data: { username: username }
+                }
+            });
+
+            if (error) {
                 statusMsg.className = 'status-message error';
-                statusMsg.innerText = 'An account with this email already exists.';
-                return;
+                statusMsg.innerText = error.message;
+            } else {
+                statusMsg.innerText = 'Account created! Check your email to confirm.';
+                setTimeout(closeLoginModal, 2500);
             }
 
-            const newUser = { username: username || email.split('@')[0], email, password };
-            saveUser(newUser);
+        } else { // Login Mode
+            const { data, error } = await _supabase.auth.signInWithPassword({
+                email: email,
+                password: password
+            });
 
-            statusMsg.className = 'status-message success';
-            statusMsg.innerText = 'Account created! Logging in...';
-
-            setTimeout(() => {
-                setActiveSession(newUser);
-                closeLoginModal();
-            }, 1000);
-
-        } else { // Login mode
-            const user = users.find(u => u.email === email && u.password === password);
-
-            if (!user) {
+            if (error) {
                 statusMsg.className = 'status-message error';
-                statusMsg.innerText = 'Invalid email or password.';
-                return;
+                statusMsg.innerText = error.message;
+            } else {
+                statusMsg.innerText = 'Welcome back!';
+                setTimeout(closeLoginModal, 1000);
             }
-
-            statusMsg.className = 'status-message success';
-            statusMsg.innerText = 'Welcome back!';
-
-            setTimeout(() => {
-                setActiveSession(user);
-                closeLoginModal();
-            }, 1000);
         }
     }
 
-    // Header State Toggle
-    function updateHeaderUI() {
-        const session = getActiveSession();
+    // PASSWORD RESET LINK
+    async function handlePasswordReset() {
+        const email = prompt("Enter your account email:");
+        if (!email) return;
+
+        const { error } = await _supabase.auth.resetPasswordForEmail(email);
+        if (error) {
+            alert('Error: ' + error.message);
+        } else {
+            alert('Password reset link sent to your email address.');
+        }
+    }
+
+    // AUTOMATIC SESSION MANAGEMENT
+    _supabase.auth.onAuthStateChange((event, session) => {
         const authBtn = document.getElementById('header-auth-btn');
         const userMenu = document.getElementById('header-user-menu');
         const displayName = document.getElementById('user-display-name');
 
-        if (session) {
+        if (session && session.user) {
+            const name = session.user.user_metadata?.username || session.user.email.split('@')[0];
+            displayName.innerText = name;
             authBtn.style.display = 'none';
             userMenu.style.display = 'block';
-            displayName.innerText = session.username;
         } else {
             authBtn.style.display = 'block';
             userMenu.style.display = 'none';
         }
-    }
+    });
 
     function toggleUserDropdown() {
         document.getElementById('user-dropdown').classList.toggle('show');
     }
 
-    function handleLogout() {
-        clearSession();
+    async function handleLogout() {
+        await _supabase.auth.signOut();
         document.getElementById('user-dropdown').classList.remove('show');
     }
-
-    // Initialize UI state on page load
-    document.addEventListener('DOMContentLoaded', updateHeaderUI);
 </script>
 
 </body>
