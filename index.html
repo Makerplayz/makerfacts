@@ -5,11 +5,10 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>MakerFacts | Official Network</title>
   
-  <!-- Supabase JS Library CDN -->
+  <!-- Supabase JS CDN -->
   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
-  
+
   <style>
-    /* Global Styles */
     body {
       margin: 0;
       font-family: Arial, sans-serif;
@@ -17,7 +16,7 @@
       color: #ffffff;
     }
 
-    /* Navbar */
+    /* HEADER & NAV */
     header {
       display: flex;
       justify-content: space-between;
@@ -36,7 +35,7 @@
     .brand img {
       width: 40px;
       height: 40px;
-      object-fit: contain;
+      image-rendering: pixelated;
     }
 
     .brand h1 {
@@ -59,7 +58,7 @@
       transition: color 0.2s;
     }
 
-    nav a:hover {
+    nav a:hover, nav a.active {
       color: #f1c40f;
     }
 
@@ -71,21 +70,19 @@
       border-radius: 4px;
       font-weight: bold;
       cursor: pointer;
-      transition: background 0.2s;
     }
 
     .nav-btn:hover {
       background-color: #d4ac0d;
     }
 
-    /* Main Container */
+    /* MAIN CONTENT */
     main {
       max-width: 1000px;
       margin: 0 auto;
       padding: 2rem 1rem;
     }
 
-    /* Hero Section */
     .hero {
       text-align: center;
       padding: 3rem 1.5rem;
@@ -131,9 +128,8 @@
       color: #fff;
     }
 
-    /* Featured Content Section */
     .featured-section {
-      padding: 1rem;
+      padding: 1rem 0;
     }
 
     .featured-section h3 {
@@ -150,7 +146,7 @@
       font-size: 1rem;
     }
 
-    /* Modal Styling */
+    /* AUTH MODAL */
     .modal-overlay {
       display: none;
       position: fixed;
@@ -171,7 +167,6 @@
       border: 1px solid #333;
       max-width: 380px;
       width: 90%;
-      box-shadow: 0 4px 20px rgba(0,0,0,0.5);
     }
 
     .modal-card h2 {
@@ -201,12 +196,6 @@
       margin-top: 10px;
     }
 
-    .modal-card p {
-      font-size: 0.9rem;
-      color: #aaa;
-      margin-top: 15px;
-    }
-
     .toggle-link {
       color: #f1c40f;
       cursor: pointer;
@@ -225,10 +214,10 @@
 </head>
 <body>
 
-  <!-- HEADER / NAVBAR -->
+  <!-- HEADER -->
   <header>
     <div class="brand">
-      <img src="logo.png" alt="MakerFacts Logo">
+      <img src="https://i.pinimg.com/736x/04/c2/f4/04c2f4356c5f4b932fb5c0b1b9eb1514.jpg" alt="" class="logo-img" style="height: 60px; width: auto;">
       <h1>MAKERFACTS</h1>
     </div>
     <nav>
@@ -242,9 +231,8 @@
     </nav>
   </header>
 
-  <!-- MAIN BODY -->
+  <!-- BODY CONTENT -->
   <main>
-    <!-- HERO SECTION -->
     <section class="hero">
       <h2>WELCOME TO MAKERFACTS</h2>
       <p>The ultimate hub for gaming projects, video series updates, community server developments, and channel archives.</p>
@@ -254,14 +242,13 @@
       </div>
     </section>
 
-    <!-- FEATURED CONTENT SECTION -->
     <section class="featured-section">
       <h3>FEATURED CONTENT</h3>
       <p>Highlights and ongoing projects across the Maker network.</p>
     </section>
   </main>
 
-  <!-- AUTH POPUP MODAL -->
+  <!-- POPUP MODAL -->
   <div id="authModal" class="modal-overlay">
     <div class="modal-card">
       <h2 id="modalTitle">Sign In</h2>
@@ -270,21 +257,19 @@
       
       <button id="authSubmitBtn" class="submit-btn">Submit</button>
       
-      <p>
+      <p style="font-size: 0.9rem; color: #aaa; margin-top: 15px;">
         <span id="toggleAuthMode" class="toggle-link">Need an account? Sign Up</span>
       </p>
       <button id="closeModalBtn" class="close-btn">Close</button>
     </div>
   </div>
 
-  <!-- SUPABASE INTEGRATION SCRIPT -->
+  <!-- SUPABASE JS -->
   <script>
-    // INITIALIZE SUPABASE CLIENT
     const SUPABASE_URL = 'https://tbvftxuugllhbnhslizc.supabase.co';
     const SUPABASE_ANON_KEY = 'sb_publishable_oN8_w9Wq6k5S84z4QMlU1g_H107YGvs';
     const _supabase = supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
 
-    // MODAL & AUTH UI LOGIC
     let isSignUp = false;
 
     const modal = document.getElementById('authModal');
@@ -293,18 +278,15 @@
     const toggleBtn = document.getElementById('toggleAuthMode');
     const submitBtn = document.getElementById('authSubmitBtn');
 
-    // Open/Close Modal handlers
     openBtn.onclick = () => modal.style.display = 'flex';
     closeBtn.onclick = () => modal.style.display = 'none';
 
-    // Toggle between Sign In and Sign Up views
     toggleBtn.onclick = () => {
       isSignUp = !isSignUp;
       document.getElementById('modalTitle').innerText = isSignUp ? 'Sign Up' : 'Sign In';
       toggleBtn.innerText = isSignUp ? 'Already have an account? Sign In' : 'Need an account? Sign Up';
     };
 
-    // Form Submission to Supabase
     submitBtn.onclick = async () => {
       const email = document.getElementById('authEmail').value;
       const password = document.getElementById('authPassword').value;
