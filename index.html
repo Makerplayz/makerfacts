@@ -5,10 +5,11 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>MakerFacts | Official Network</title>
   
-  <!-- Supabase JS CDN -->
+  <!-- Supabase JS Library CDN -->
   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 
   <style>
+    /* Global Styles */
     body {
       margin: 0;
       font-family: Arial, sans-serif;
@@ -16,7 +17,7 @@
       color: #ffffff;
     }
 
-    /* HEADER & NAV */
+    /* Navbar */
     header {
       display: flex;
       justify-content: space-between;
@@ -32,9 +33,7 @@
       gap: 12px;
     }
 
-    .brand img {
-      width: 40px;
-      height: 40px;
+    .brand img.logo-img {
       image-rendering: pixelated;
     }
 
@@ -70,19 +69,21 @@
       border-radius: 4px;
       font-weight: bold;
       cursor: pointer;
+      transition: background 0.2s;
     }
 
     .nav-btn:hover {
       background-color: #d4ac0d;
     }
 
-    /* MAIN CONTENT */
+    /* Main Layout */
     main {
       max-width: 1000px;
       margin: 0 auto;
       padding: 2rem 1rem;
     }
 
+    /* Hero Section */
     .hero {
       text-align: center;
       padding: 3rem 1.5rem;
@@ -128,6 +129,7 @@
       color: #fff;
     }
 
+    /* Featured Content */
     .featured-section {
       padding: 1rem 0;
     }
@@ -146,7 +148,7 @@
       font-size: 1rem;
     }
 
-    /* AUTH MODAL */
+    /* Modal Styling */
     .modal-overlay {
       display: none;
       position: fixed;
@@ -167,6 +169,7 @@
       border: 1px solid #333;
       max-width: 380px;
       width: 90%;
+      box-shadow: 0 4px 20px rgba(0,0,0,0.5);
     }
 
     .modal-card h2 {
@@ -214,7 +217,7 @@
 </head>
 <body>
 
-  <!-- HEADER -->
+  <!-- HEADER / NAVBAR -->
   <header>
     <div class="brand">
       <img src="https://i.pinimg.com/736x/04/c2/f4/04c2f4356c5f4b932fb5c0b1b9eb1514.jpg" alt="" class="logo-img" style="height: 60px; width: auto;">
@@ -231,7 +234,7 @@
     </nav>
   </header>
 
-  <!-- BODY CONTENT -->
+  <!-- MAIN BODY -->
   <main>
     <section class="hero">
       <h2>WELCOME TO MAKERFACTS</h2>
@@ -248,7 +251,7 @@
     </section>
   </main>
 
-  <!-- POPUP MODAL -->
+  <!-- AUTH POPUP MODAL -->
   <div id="authModal" class="modal-overlay">
     <div class="modal-card">
       <h2 id="modalTitle">Sign In</h2>
@@ -264,11 +267,18 @@
     </div>
   </div>
 
-  <!-- SUPABASE JS -->
+  <!-- SUPABASE INTEGRATION SCRIPT -->
   <script>
     const SUPABASE_URL = 'https://tbvftxuugllhbnhslizc.supabase.co';
     const SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InRidmZ0eHV1Z2xsaGJuaHNsaXpjIiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODczNDAyNzYsImV4cCI6MjEwMjkxNjI3Nn0.L-TJPyQtJLk7wvhBcSFldYoIGagnZ1gcyKrKFWTUhXU';
-    const _supabase = supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
+
+    const _supabase = supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY, {
+      global: {
+        headers: {
+          apikey: SUPABASE_ANON_KEY
+        }
+      }
+    });
 
     let isSignUp = false;
 
@@ -278,7 +288,28 @@
     const toggleBtn = document.getElementById('toggleAuthMode');
     const submitBtn = document.getElementById('authSubmitBtn');
 
-    openBtn.onclick = () => modal.style.display = 'flex';
+    // DYNAMIC UI LOGIC (Sign In vs Logout)
+    async function updateAuthUI() {
+      const { data: { session } } = await _supabase.auth.getSession();
+      
+      if (session) {
+        openBtn.innerText = 'Logout';
+        openBtn.onclick = async () => {
+          await _supabase.auth.signOut();
+          alert('Logged out successfully!');
+          updateAuthUI();
+        };
+      } else {
+        openBtn.innerText = 'Sign In';
+        openBtn.onclick = () => modal.style.display = 'flex';
+      }
+    }
+
+    // CHECK SESSION ON LOAD & AUTH CHANGES
+    updateAuthUI();
+    _supabase.auth.onAuthStateChange(() => updateAuthUI());
+
+    // MODAL CONTROLS
     closeBtn.onclick = () => modal.style.display = 'none';
 
     toggleBtn.onclick = () => {
@@ -287,6 +318,7 @@
       toggleBtn.innerText = isSignUp ? 'Already have an account? Sign In' : 'Need an account? Sign Up';
     };
 
+    // FORM SUBMISSION
     submitBtn.onclick = async () => {
       const email = document.getElementById('authEmail').value;
       const password = document.getElementById('authPassword').value;
@@ -303,6 +335,7 @@
         } else {
           alert('Account created successfully!');
           modal.style.display = 'none';
+          updateAuthUI();
         }
       } else {
         const { data, error } = await _supabase.auth.signInWithPassword({ email, password });
@@ -311,6 +344,7 @@
         } else {
           alert('Logged in successfully!');
           modal.style.display = 'none';
+          updateAuthUI();
         }
       }
     };
