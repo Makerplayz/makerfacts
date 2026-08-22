@@ -61,6 +61,11 @@
       color: #f1c40f;
     }
 
+    /* Class used to hide protected links for logged-out users */
+    .protected-link {
+      display: none;
+    }
+
     .nav-btn {
       background-color: #f1c40f;
       color: #000;
@@ -225,9 +230,12 @@
     </div>
     <nav>
       <a href="index.html" class="active">Home</a>
-      <a href="aboutme.html">About</a>
+      
+      <!-- Protected Links (Hidden by default using the 'protected-link' class) -->
+      <a href="aboutme.html" class="protected-link">About</a>
       <a href="channels.html">Channels</a>
-      <a href="communityhelp.html">Community Help</a>
+      <a href="communityhelp.html" class="protected-link">Community Help</a>
+      
       <a href="contact.html">Contact</a>
       <a href="legal.html">Legal</a>
       <button id="openAuthBtn" class="nav-btn">Sign In</button>
@@ -241,7 +249,7 @@
       <p>The ultimate hub for gaming projects, video series updates, community server developments, and channel archives.</p>
       <div class="btn-group">
         <a href="channels.html" class="hero-btn btn-primary">Explore Channels</a>
-        <a href="about.html" class="hero-btn btn-secondary">Learn More</a>
+        <a href="aboutme.html" class="hero-btn btn-secondary">Learn More</a>
       </div>
     </section>
 
@@ -288,20 +296,33 @@
     const toggleBtn = document.getElementById('toggleAuthMode');
     const submitBtn = document.getElementById('authSubmitBtn');
 
-    // DYNAMIC UI LOGIC (Sign In vs Logout)
+    // DYNAMIC UI LOGIC (Handles Sign In/Out and Hiding/Showing Protected Links)
     async function updateAuthUI() {
       const { data: { session } } = await _supabase.auth.getSession();
       
       if (session) {
+        // User IS Logged In
         openBtn.innerText = 'Logout';
         openBtn.onclick = async () => {
           await _supabase.auth.signOut();
           alert('Logged out successfully!');
           updateAuthUI();
         };
+
+        // Reveal protected navigation links
+        document.querySelectorAll('.protected-link').forEach(link => {
+          link.style.display = 'inline-block';
+        });
+
       } else {
+        // User IS NOT Logged In
         openBtn.innerText = 'Sign In';
         openBtn.onclick = () => modal.style.display = 'flex';
+
+        // Hide protected navigation links
+        document.querySelectorAll('.protected-link').forEach(link => {
+          link.style.display = 'none';
+        });
       }
     }
 
