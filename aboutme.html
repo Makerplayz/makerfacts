@@ -4,7 +4,9 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>MakerFacts | About Me</title>
-<style>
+    <!-- Supabase JS Client CDN -->
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    <style>
         :root { 
             --bg: #0d0d0d; 
             --card: #181818; 
@@ -17,63 +19,99 @@
         * { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Segoe UI', sans-serif; }
         body { background: var(--bg); color: var(--text); line-height: 1.6; }
         
-        /* Navigation */
-        header { background: #000000; border-bottom: 1px solid var(--border); position: sticky; top: 0; z-index: 100; }
-        nav { max-width: 1100px; margin: 0 auto; display: flex; justify-content: space-between; align-items: center; padding: 1rem 1.5rem; }
-        .logo { font-size: 1.5rem; font-weight: 800; color: var(--accent); text-decoration: none; text-transform: uppercase; letter-spacing: 0.5px; }
-        .nav-links { display: flex; gap: 1.5rem; list-style: none; }
-        .nav-links a { color: var(--text); text-decoration: none; font-weight: 600; transition: color 0.2s; }
-        .nav-links a.active, .nav-links a:hover { color: var(--accent); }
+        /* HEADER & NAVBAR */
+        header { background: #000000; border-bottom: 1px solid var(--border); position: sticky; top: 0; z-index: 100; display: flex; justify-content: space-between; align-items: center; padding: 1rem 1.5rem; max-width: 100%; }
+        .brand { display: flex; align-items: center; gap: 0.75rem; }
+        .brand h1 { font-size: 1.5rem; font-weight: 800; color: var(--accent); letter-spacing: 0.5px; }
         
-        /* Container Layout */
+        nav { display: flex; gap: 1.5rem; align-items: center; }
+        nav a { color: var(--text); text-decoration: none; font-weight: 600; transition: color 0.2s; }
+        nav a.active, nav a:hover { color: var(--accent); }
+
+        .nav-btn { background: var(--accent); color: #000; border: none; padding: 0.4rem 0.9rem; border-radius: 6px; font-weight: 700; cursor: pointer; transition: background 0.2s; }
+        .nav-btn:hover { background: var(--accent-hover); }
+
+        /* PROTECTED LINKS (Hidden by default, shown when logged in) */
+        .protected-link { display: none; }
+        
+        /* CONTAINER & LAYOUT */
         .container { max-width: 1100px; margin: 3rem auto; padding: 0 1.5rem; }
-        .section-title { font-size: 1.75rem; margin-bottom: 0.5rem; border-bottom: 3px solid var(--accent); display: inline-block; color: var(--accent); text-transform: uppercase; letter-spacing: 0.5px; }
-        .section-subtitle { color: var(--muted); margin-bottom: 2rem; font-size: 1rem; }
+        .section-title { font-size: 1.75rem; margin-bottom: 1.5rem; border-bottom: 3px solid var(--accent); display: inline-block; color: var(--accent); text-transform: uppercase; letter-spacing: 0.5px; }
         
-        /* Content Card */
-        .about-card { 
+        /* CONTENT CARD */
+        .about-box { 
             background: var(--card); 
             border: 1px solid var(--border); 
             border-radius: 12px; 
             padding: 2rem; 
-            margin-bottom: 2rem;
+            margin-bottom: 3rem;
             transition: border-color 0.2s;
         }
-        .about-card:hover { border-color: var(--accent); }
-        .about-card h2 { color: var(--accent); margin-bottom: 1rem; font-size: 1.4rem; }
-        .about-card p { color: var(--muted); margin-bottom: 1rem; line-height: 1.7; font-size: 1rem; }
-        .about-card p:last-child { margin-bottom: 0; }
+        .about-box:hover { border-color: var(--accent); }
+        .about-box h2 { color: var(--accent); margin-bottom: 1rem; font-size: 1.5rem; }
+        .about-box p { color: var(--muted); margin-bottom: 1.25rem; line-height: 1.7; font-size: 1rem; }
+        .about-box p:last-child { margin-bottom: 0; }
+        .about-box a { color: var(--accent); text-decoration: none; font-weight: 600; }
+        .about-box a:hover { text-decoration: underline; }
         
-        /* Grid Layout for Highlights */
-        .grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 1.5rem; margin-top: 2rem; }
-        .stat-card { background: var(--card); border: 1px solid var(--border); border-radius: 10px; padding: 1.5rem; text-align: center; }
-        .stat-card h3 { color: var(--accent); font-size: 1.5rem; margin-bottom: 0.5rem; }
-        .stat-card p { color: var(--muted); font-size: 0.95rem; }
+        /* GRID LAYOUT FOR HIGHLIGHTS */
+        .grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 1.5rem; margin-top: 1.5rem; }
+        .card { background: var(--card); border: 1px solid var(--border); border-radius: 10px; padding: 1.5rem; text-align: center; }
+        .card h3 { color: var(--accent); font-size: 1.25rem; margin-bottom: 0.5rem; }
+        .card p { color: var(--muted); font-size: 0.95rem; }
 
-        /* Footer */
+        /* AUTH MODAL STYLES */
+        .modal-overlay { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0, 0, 0, 0.85); justify-content: center; align-items: center; z-index: 1000; }
+        .modal-card { background: var(--card); border: 1px solid var(--border); border-radius: 12px; padding: 2rem; width: 100%; max-width: 400px; text-align: center; }
+        .modal-card h2 { color: var(--accent); margin-bottom: 1.5rem; }
+        .modal-card input { width: 100%; padding: 0.75rem; margin-bottom: 1rem; background: #000000; border: 1px solid var(--border); border-radius: 6px; color: var(--text); }
+        .submit-btn { width: 100%; background: var(--accent); color: #000000; border: none; padding: 0.75rem; border-radius: 6px; font-weight: 800; font-size: 1rem; cursor: pointer; transition: background 0.2s; text-transform: uppercase; }
+        .submit-btn:hover { background: var(--accent-hover); }
+        .toggle-link { color: var(--accent); cursor: pointer; text-decoration: underline; }
+        .close-btn { margin-top: 1rem; background: transparent; border: 1px solid var(--border); color: var(--muted); padding: 0.5rem 1rem; border-radius: 6px; cursor: pointer; width: 100%; }
+        .close-btn:hover { color: var(--text); border-color: var(--text); }
+
+        /* FOOTER */
         footer { text-align: center; padding: 2rem; color: var(--muted); border-top: 1px solid var(--border); margin-top: 4rem; }
         footer a { color: var(--accent); text-decoration: none; font-weight: 600; }
         footer a:hover { text-decoration: underline; }
     </style>
 </head>
 <body>
-   <header>
-    <nav>
-        <a href="index.html" class="logo">
-            <img src="https://i.pinimg.com/736x/04/c2/f4/04c2f4356c5f4b932fb5c0b1b9eb1514.jpg" alt="" class="logo-img" style="height: 60px; width: auto;">
-            MakerFacts
-        </a>
-        <ul class="nav-links">
-            <li><a href="index.html">Home</a></li>
-            <li><a href="aboutme.html" class="active">About</a></li>
-            <li><a href="channels.html">Channels</a></li>
-            <li><a href="communityhelp.html">Community Help</a></li>
-            <li><a href="contact.html">Contact</a></li>
-            <li><a href="legal.html">Legal</a></li>
-        </ul>
-    </nav>
-</header>
+    <!-- HEADER / NAVBAR -->
+    <header>
+        <div class="brand">
+            <img src="https://i.pinimg.com/736x/04/c2/f4/04c2f4356c5f4b932fb5c0b1b9eb1514.jpg" alt="Logo" class="logo-img" style="height: 50px; width: auto; border-radius: 4px;">
+            <h1>MAKERFACTS</h1>
+        </div>
+        <nav>
+            <a href="index.html">Home</a>
+            <a href="aboutme.html" class="protected-link active">About</a>
+            <a href="channels.html">Channels</a>
+            <a href="communityhelp.html" class="protected-link">Community Help</a>
+            <a href="contact.html">Contact</a>
+            <a href="legal.html">Legal</a>
+            <button id="openAuthBtn" class="nav-btn">Sign In</button>
+        </nav>
+    </header>
 
+    <!-- AUTH POPUP MODAL -->
+    <div id="authModal" class="modal-overlay">
+        <div class="modal-card">
+            <h2 id="modalTitle">Sign In</h2>
+            <input type="email" id="authEmail" placeholder="Email" required>
+            <input type="password" id="authPassword" placeholder="Password" required>
+            
+            <button id="authSubmitBtn" class="submit-btn">Submit</button>
+            
+            <p style="font-size: 0.9rem; color: #aaa; margin-top: 15px;">
+                <span id="toggleAuthMode" class="toggle-link">Need an account? Sign Up</span>
+            </p>
+            <button id="closeModalBtn" class="close-btn">Close</button>
+        </div>
+    </div>
+
+    <!-- MAIN CONTENT -->
     <div class="container">
         <h1 class="section-title">About Me</h1>
         
@@ -81,21 +119,28 @@
         <div class="about-box">
             <h2>Hey, I'm Ephream (Makerplays)</h2>
             <p>
-I’ve wanted to be a YouTuber for the past eight years, 
-ever since I was six years old. I didn’t actually start making content until 
-I was 11, when I uploaded a video called "Roblox Roller Coaster and Get Eaten." 
-It was on my parents' YouTube account, and unfortunately, it has since been deleted. 
-I uploaded five more videos after that before quitting for a while.
+                I’ve wanted to be a YouTuber for the past eight years, ever since I was six years old. I didn’t actually start making content until I was 11, when I uploaded a video called "Roblox Roller Coaster and Get Eaten." It was on my parents' YouTube account, and unfortunately, it has since been deleted. I uploaded five more videos after that before quitting for a while.
             </p>
             <p>
                 When I turned 12, I decided to get back into it. This time, I wanted a channel name that was interesting—something that would make everyone want to subscribe to me. That's how I came up with "Makerplays." I chose "Maker" because I loved Super Mario Maker, Legos, and even coding, for crying out loud! The "plays" part came from watching a bunch of YouTubers like UnspeakablePlays and PrestonPlayz.
-Once I stuck with that name, I decided to work on a channel logo. At first, my profile picture was just an image of xNestorio, which I used until I reached 35 subscribers. After that milestone, I finally created my first real logo: a black panther with the text "Maker" on top and "plays" on the bottom.I started out making block puzzle videos until they stopped getting views, so I decided to quit doing them altogether. Instead, I started a new Minecraft journey called 'Breaking Minecraft PE Edition'. That first video got 200 views, which made me think, 'Okay, I'm definitely making more of these!'
-That's when I decided to do my first collab ever with EpicGamerQMC. When we first met, we asked each other, 'Do you have a YouTube channel?' We both said yes, and right then and there, we decided to collab entirely!I stuck with Minecraft for a while before thinking, 'Maybe I could do Roblox content too?' So, I started making both Roblox and Minecraft videos. Later down the line, I branched out into Call of Duty, Ranking videos, Shorts, and more.
-But the one series that truly started it all was the 'Makerplays Epic Build Battle Series'—which is famous for pitting YouTubers against viewers. Episode 1, which featured LukeHDPlays vs. CannedNoodles, pulled in 400 views! Because of that success, by Episode 2, I started using my new signature intro: 'Heya, I'm Makerplays, also known as the guy who does the Makerplays Epic Build Battle Series!' Now, it doesn't even matter if I'm actually filming a Build Battle or not... that's just my official introduction.Later on, I started creating separate channels for different types of content:
-Roblox (MakerGamez)
-VR (MakerVR)
-Memes (MakerMEMES)
-And, of course, Minecraft and Call of Duty stayed on the main channel (Makerplays). It used to host all of my content, but after a post I made <a href="http://youtube.com/post/UgkxeZkFIdmDbImMhIlzChOtvxywg_kcTSsy?si=yRLGwl_MjxrgxVEZ">here</a> things changed entirely.
+            </p>
+            <p>
+                Once I stuck with that name, I decided to work on a channel logo. At first, my profile picture was just an image of xNestorio, which I used until I reached 35 subscribers. After that milestone, I finally created my first real logo: a black panther with the text "Maker" on top and "plays" on the bottom.
+            </p>
+            <p>
+                I started out making block puzzle videos until they stopped getting views, so I decided to quit doing them altogether. Instead, I started a new Minecraft journey called 'Breaking Minecraft PE Edition'. That first video got 200 views, which made me think, 'Okay, I'm definitely making more of these!'
+            </p>
+            <p>
+                That's when I decided to do my first collab ever with EpicGamerQMC. When we first met, we asked each other, 'Do you have a YouTube channel?' We both said yes, and right then and there, we decided to collab entirely!
+            </p>
+            <p>
+                I stuck with Minecraft for a while before thinking, 'Maybe I could do Roblox content too?' So, I started making both Roblox and Minecraft videos. Later down the line, I branched out into Call of Duty, Ranking videos, Shorts, and more.
+            </p>
+            <p>
+                But the one series that truly started it all was the 'Makerplays Epic Build Battle Series'—which is famous for pitting YouTubers against viewers. Episode 1, which featured LukeHDPlays vs. CannedNoodles, pulled in 400 views! Because of that success, by Episode 2, I started using my new signature intro: 'Heya, I'm Makerplays, also known as the guy who does the Makerplays Epic Build Battle Series!' Now, it doesn't even matter if I'm actually filming a Build Battle or not... that's just my official introduction.
+            </p>
+            <p>
+                Later on, I started creating separate channels for different types of content: Roblox (MakerGamez), VR (MakerVR), Memes (MakerMEMES), and of course, Minecraft and Call of Duty stayed on the main channel (Makerplays). It used to host all of my content, but after a post I made <a href="http://youtube.com/post/UgkxeZkFIdmDbImMhIlzChOtvxywg_kcTSsy?si=yRLGwl_MjxrgxVEZ" target="_blank" rel="noopener noreferrer">here</a>, things changed entirely.
             </p>
         </div>
 
@@ -117,9 +162,91 @@ And, of course, Minecraft and Call of Duty stayed on the main channel (Makerplay
         </div>
     </div>
 
+    <!-- FOOTER -->
     <footer>
         <p>&copy; 2026 Maker Corp. All Rights Reserved.</p>
         <p><a href="legal.html">Privacy Policy & Terms</a></p>
     </footer>
+
+    <!-- SUPABASE INTEGRATION SCRIPT -->
+    <script>
+        const SUPABASE_URL = 'https://tbvftxuugllhbnhslizc.supabase.co';
+        const SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InRidmZ0eHV1Z2xsaGJuaHNsaXpjIiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODczNDAyNzYsImV4cCI6MjEwMjkxNjI3Nn0.L-TJPyQtJLk7wvhBcSFldYoIGagnZ1gcyKrKFWTUhXU';
+
+        const _supabase = supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
+
+        let isSignUp = false;
+
+        const modal = document.getElementById('authModal');
+        const openBtn = document.getElementById('openAuthBtn');
+        const closeBtn = document.getElementById('closeModalBtn');
+        const toggleBtn = document.getElementById('toggleAuthMode');
+        const submitBtn = document.getElementById('authSubmitBtn');
+
+        async function updateAuthUI() {
+            const { data: { session } } = await _supabase.auth.getSession();
+            
+            if (session) {
+                openBtn.innerText = 'Logout';
+                openBtn.onclick = async () => {
+                    await _supabase.auth.signOut();
+                    alert('Logged out successfully!');
+                    updateAuthUI();
+                };
+
+                document.querySelectorAll('.protected-link').forEach(link => {
+                    link.style.display = 'inline-block';
+                });
+            } else {
+                openBtn.innerText = 'Sign In';
+                openBtn.onclick = () => modal.style.display = 'flex';
+
+                document.querySelectorAll('.protected-link').forEach(link => {
+                    link.style.display = 'none';
+                });
+            }
+        }
+
+        updateAuthUI();
+        _supabase.auth.onAuthStateChange(() => updateAuthUI());
+
+        closeBtn.onclick = () => modal.style.display = 'none';
+
+        toggleBtn.onclick = () => {
+            isSignUp = !isSignUp;
+            document.getElementById('modalTitle').innerText = isSignUp ? 'Sign Up' : 'Sign In';
+            toggleBtn.innerText = isSignUp ? 'Already have an account? Sign In' : 'Need an account? Sign Up';
+        };
+
+        submitBtn.onclick = async () => {
+            const email = document.getElementById('authEmail').value;
+            const password = document.getElementById('authPassword').value;
+
+            if (!email || !password) {
+                alert('Please fill out both email and password.');
+                return;
+            }
+
+            if (isSignUp) {
+                const { data, error } = await _supabase.auth.signUp({ email, password });
+                if (error) {
+                    alert(error.message);
+                } else {
+                    alert('Account created successfully!');
+                    modal.style.display = 'none';
+                    updateAuthUI();
+                }
+            } else {
+                const { data, error } = await _supabase.auth.signInWithPassword({ email, password });
+                if (error) {
+                    alert(error.message);
+                } else {
+                    alert('Logged in successfully!');
+                    modal.style.display = 'none';
+                    updateAuthUI();
+                }
+            }
+        };
+    </script>
 </body>
 </html>
