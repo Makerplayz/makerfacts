@@ -1,0 +1,284 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MakerFacts | Channels Network</title>
+<style>
+        :root { 
+            --bg: #0d0d0d; 
+            --card: #181818; 
+            --accent: #facc15; 
+            --accent-hover: #eab308; 
+            --text: #ffffff; 
+            --muted: #a1a1aa; 
+            --border: #27272a; 
+            --yt-red: #ff0000;
+        }
+        * { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Segoe UI', sans-serif; }
+        body { background: var(--bg); color: var(--text); line-height: 1.6; }
+        
+        /* Navigation */
+        header { background: #000000; border-bottom: 1px solid var(--border); position: sticky; top: 0; z-index: 100; }
+        nav { max-width: 1100px; margin: 0 auto; display: flex; justify-content: space-between; align-items: center; padding: 1rem 1.5rem; }
+        .logo { font-size: 1.5rem; font-weight: 800; color: var(--accent); text-decoration: none; text-transform: uppercase; letter-spacing: 0.5px; }
+        .nav-links { display: flex; gap: 1.5rem; list-style: none; }
+        .nav-links a { color: var(--text); text-decoration: none; font-weight: 600; transition: color 0.2s; }
+        .nav-links a.active, .nav-links a:hover { color: var(--accent); }
+        
+        /* Container Layout */
+        .container { max-width: 1100px; margin: 3rem auto; padding: 0 1.5rem; }
+        .section-title { font-size: 1.75rem; margin-bottom: 0.5rem; border-bottom: 3px solid var(--accent); display: inline-block; color: var(--accent); text-transform: uppercase; letter-spacing: 0.5px; }
+        .section-subtitle { color: var(--muted); margin-bottom: 2rem; font-size: 1rem; }
+        
+        /* Grid Layout */
+        .grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 1.5rem; }
+        
+        /* Channel Card Styles */
+        .channel-card { 
+            background: var(--card); 
+            border: 1px solid var(--border); 
+            border-radius: 12px; 
+            padding: 1.75rem; 
+            display: flex; 
+            flex-direction: column; 
+            justify-content: space-between;
+            transition: transform 0.2s, border-color 0.2s;
+        }
+        .channel-card:hover { 
+            transform: translateY(-4px); 
+            border-color: var(--accent); 
+        }
+        .card-header { margin-bottom: 1rem; }
+        .badge { 
+            display: inline-block; 
+            padding: 0.25rem 0.6rem; 
+            font-size: 0.75rem; 
+            font-weight: 800; 
+            border-radius: 20px; 
+            background: rgba(250, 204, 21, 0.15); 
+            color: var(--accent); 
+            margin-bottom: 0.75rem; 
+            text-transform: uppercase;
+        }
+        .channel-card h3 { font-size: 1.3rem; color: var(--accent); margin-bottom: 0.5rem; }
+        .channel-card p { color: var(--muted); font-size: 0.95rem; line-height: 1.5; margin-bottom: 1.25rem; }
+        
+        /* Channel Action Buttons */
+        .card-actions { display: flex; gap: 0.5rem; flex-wrap: wrap; margin-top: auto; }
+        .btn { 
+            display: inline-flex; 
+            align-items: center; 
+            justify-content: center;
+            background: var(--accent); 
+            color: #000000; 
+            padding: 0.5rem 1rem; 
+            border-radius: 6px; 
+            text-decoration: none; 
+            font-weight: 700; 
+            font-size: 0.9rem; 
+            flex: 1;
+            transition: background 0.2s, color 0.2s; 
+        }
+        .btn:hover { background: var(--accent-hover); color: #000000; }
+        .btn-yt { background: #000000; border: 1px solid var(--border); color: var(--text); }
+        .btn-yt:hover { background: var(--yt-red); border-color: var(--yt-red); color: #ffffff; }
+
+        /* Footer */
+        footer { text-align: center; padding: 2rem; color: var(--muted); border-top: 1px solid var(--border); margin-top: 4rem; }
+        footer a { color: var(--accent); text-decoration: none; font-weight: 600; }
+        footer a:hover { text-decoration: underline; }
+    </style>
+</head>
+<body>
+   <!-- HEADER / NAVBAR -->
+  <header>
+    <div class="brand">
+      <img src="https://i.pinimg.com/736x/04/c2/f4/04c2f4356c5f4b932fb5c0b1b9eb1514.jpg" alt="" class="logo-img" style="height: 60px; width: auto;">
+      <h1>MAKERFACTS</h1>
+    </div>
+    <nav>
+      <a href="index.html">Home</a>
+      
+      <!-- Protected Links (Hidden by default using the 'protected-link' class) -->
+      <a href="aboutme.html" class="protected-link">About</a>
+      <a href="channels.html">Channels</a>
+      <a href="communityhelp.html" class="protected-link">Community Help</a>
+      
+      <a href="contact.html">Contact</a>
+      <a href="legal.html" class="active">Legal</a>
+      <button id="openAuthBtn" class="nav-btn">Sign In</button>
+    </nav>
+  </header>
+
+     <!-- AUTH POPUP MODAL -->
+  <div id="authModal" class="modal-overlay">
+    <div class="modal-card">
+      <h2 id="modalTitle">Sign In</h2>
+      <input type="email" id="authEmail" placeholder="Email" required>
+      <input type="password" id="authPassword" placeholder="Password" required>
+      
+      <button id="authSubmitBtn" class="submit-btn">Submit</button>
+      
+      <p style="font-size: 0.9rem; color: #aaa; margin-top: 15px;">
+        <span id="toggleAuthMode" class="toggle-link">Need an account? Sign Up</span>
+      </p>
+      <button id="closeModalBtn" class="close-btn">Close</button>
+    </div>
+  </div>
+
+  <!-- SUPABASE INTEGRATION SCRIPT -->
+  <script>
+    const SUPABASE_URL = 'https://tbvftxuugllhbnhslizc.supabase.co';
+    const SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InRidmZ0eHV1Z2xsaGJuaHNsaXpjIiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODczNDAyNzYsImV4cCI6MjEwMjkxNjI3Nn0.L-TJPyQtJLk7wvhBcSFldYoIGagnZ1gcyKrKFWTUhXU';
+
+    const _supabase = supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY, {
+      global: {
+        headers: {
+          apikey: SUPABASE_ANON_KEY
+        }
+      }
+    });
+
+    let isSignUp = false;
+
+    const modal = document.getElementById('authModal');
+    const openBtn = document.getElementById('openAuthBtn');
+    const closeBtn = document.getElementById('closeModalBtn');
+    const toggleBtn = document.getElementById('toggleAuthMode');
+    const submitBtn = document.getElementById('authSubmitBtn');
+
+    // DYNAMIC UI LOGIC (Handles Sign In/Out and Hiding/Showing Protected Links)
+    async function updateAuthUI() {
+      const { data: { session } } = await _supabase.auth.getSession();
+      
+      if (session) {
+        // User IS Logged In
+        openBtn.innerText = 'Logout';
+        openBtn.onclick = async () => {
+          await _supabase.auth.signOut();
+          alert('Logged out successfully!');
+          updateAuthUI();
+        };
+
+        // Reveal protected navigation links
+        document.querySelectorAll('.protected-link').forEach(link => {
+          link.style.display = 'inline-block';
+        });
+
+      } else {
+        // User IS NOT Logged In
+        openBtn.innerText = 'Sign In';
+        openBtn.onclick = () => modal.style.display = 'flex';
+
+        // Hide protected navigation links
+        document.querySelectorAll('.protected-link').forEach(link => {
+          link.style.display = 'none';
+        });
+      }
+    }
+
+    // CHECK SESSION ON LOAD & AUTH CHANGES
+    updateAuthUI();
+    _supabase.auth.onAuthStateChange(() => updateAuthUI());
+
+    // MODAL CONTROLS
+    closeBtn.onclick = () => modal.style.display = 'none';
+
+    toggleBtn.onclick = () => {
+      isSignUp = !isSignUp;
+      document.getElementById('modalTitle').innerText = isSignUp ? 'Sign Up' : 'Sign In';
+      toggleBtn.innerText = isSignUp ? 'Already have an account? Sign In' : 'Need an account? Sign Up';
+    };
+
+    // FORM SUBMISSION
+    submitBtn.onclick = async () => {
+      const email = document.getElementById('authEmail').value;
+      const password = document.getElementById('authPassword').value;
+
+      if (!email || !password) {
+        alert('Please fill out both email and password.');
+        return;
+      }
+
+      if (isSignUp) {
+        const { data, error } = await _supabase.auth.signUp({ email, password });
+        if (error) {
+          alert(error.message);
+        } else {
+          alert('Account created successfully!');
+          modal.style.display = 'none';
+          updateAuthUI();
+        }
+      } else {
+        const { data, error } = await _supabase.auth.signInWithPassword({ email, password });
+        if (error) {
+          alert(error.message);
+        } else {
+          alert('Logged in successfully!');
+          modal.style.display = 'none';
+          updateAuthUI();
+        }
+      }
+    };
+  </script>
+
+    <div class="container">
+        <h1 class="section-title">Channel Directory</h1>
+        <p class="section-subtitle">Official hub for all active YouTube channels, short-form hubs, and creator platforms in the Maker network.</p>
+        
+        <div class="grid">
+            <!-- Main Channel -->
+            <div class="channel-card">
+                <div class="card-header">
+                    <span class="badge">Main Channel</span>
+                    <h3>Makerplays</h3>
+                    <p>The primary channel featuring Minecraft PE challenges, custom build battles, survival series, and main gaming highlights.</p>
+                </div>
+                <div class="card-actions">
+                    <a href="https://youtube.com/@MakerplaysYT" target="_blank" class="btn btn-yt">View Channel</a>
+                </div>
+            </div>
+
+            <!-- Gaming Channel -->
+            <div class="channel-card">
+                <div class="card-header">
+                    <span class="badge">Variety Gaming</span>
+                    <h3>MakerGamez</h3>
+                    <p>Dedicated home for extended gameplay walkthroughs, multiplayer matches, Roblox sessions, and action gaming.</p>
+                </div>
+                <div class="card-actions">
+                    <a href="https://youtube.com/@MakerGamez" target="_blank" class="btn btn-yt">View Channel</a>
+                </div>
+            </div>
+
+            <!-- Virtual Reality Channel -->
+            <div class="channel-card">
+                <div class="card-header">
+                    <span class="badge">VR Experiences</span>
+                    <h3>MakerVR</h3>
+                    <p>Immersive virtual reality adventures, Oculus/Meta Quest gameplay, and interactive VR challenges.</p>
+                </div>
+                <div class="card-actions">
+                    <a href="https://youtube.com/@MakerVirtualRealityYT" target="_blank" class="btn btn-yt">View Channel</a>
+                </div>
+            </div>
+
+            <!-- Meme & Short-Form Channel -->
+            <div class="channel-card">
+                <div class="card-header">
+                    <span class="badge">Shorts & Clips</span>
+                    <h3>MakerMEMES</h3>
+                    <p>Fast-paced gaming edits, funny moments, viral YouTube Shorts, and short-form community memes.</p>
+                </div>
+                <div class="card-actions">
+                    <a href="https://youtube.com/@MK-MEMESYT" target="_blank" class="btn btn-yt">View Channel</a>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <footer>
+        <p>&copy; 2026 Maker Corp. All Rights Reserved.</p>
+        <p><a href="legal.html">Privacy Policy & Terms</a></p>
+    </footer>
