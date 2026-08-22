@@ -1,0 +1,209 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MakerFacts | Community Help & Discussion</title>
+    <!-- Supabase JS Client CDN -->
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    <style>
+        :root { 
+            --bg: #0d0d0d; 
+            --card: #181818; 
+            --accent: #facc15; 
+            --accent-hover: #eab308; 
+            --text: #ffffff; 
+            --muted: #a1a1aa; 
+            --border: #27272a; 
+        }
+        * { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Segoe UI', sans-serif; }
+        body { background: var(--bg); color: var(--text); line-height: 1.6; }
+        
+        /* HEADER & NAVBAR */
+        header { background: #000000; border-bottom: 1px solid var(--border); position: sticky; top: 0; z-index: 100; display: flex; justify-content: space-between; align-items: center; padding: 1rem 1.5rem; max-width: 100%; }
+        .brand { display: flex; align-items: center; gap: 0.75rem; }
+        .brand h1 { font-size: 1.5rem; font-weight: 800; color: var(--accent); letter-spacing: 0.5px; }
+        
+        nav { display: flex; gap: 1.5rem; align-items: center; }
+        nav a { color: var(--text); text-decoration: none; font-weight: 600; transition: color 0.2s; }
+        nav a.active, nav a:hover { color: var(--accent); }
+
+        .nav-btn { background: var(--accent); color: #000; border: none; padding: 0.4rem 0.9rem; border-radius: 6px; font-weight: 700; cursor: pointer; transition: background 0.2s; }
+        .nav-btn:hover { background: var(--accent-hover); }
+
+        /* PROTECTED LINKS (Hidden by default, shown when logged in) */
+        .protected-link { display: none; }
+        
+        /* CONTAINER LAYOUT */
+        .container { max-width: 800px; margin: 3rem auto; padding: 0 1.5rem; }
+        
+        /* SECTION TITLES */
+        .section-title { font-size: 1.75rem; margin-bottom: 0.5rem; border-bottom: 3px solid var(--accent); display: inline-block; color: var(--accent); text-transform: uppercase; letter-spacing: 0.5px; }
+        .section-subtitle { color: var(--muted); margin-bottom: 2rem; font-size: 1rem; }
+
+        /* COMMENT BOX CONTAINER */
+        .comment-box {
+            background: var(--card);
+            border: 1px solid var(--border);
+            border-radius: 12px;
+            padding: 1.5rem;
+            margin-bottom: 2rem;
+            min-height: 200px;
+        }
+
+        /* AUTH MODAL STYLES */
+        .modal-overlay { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0, 0, 0, 0.85); justify-content: center; align-items: center; z-index: 1000; }
+        .modal-card { background: var(--card); border: 1px solid var(--border); border-radius: 12px; padding: 2rem; width: 100%; max-width: 400px; text-align: center; }
+        .modal-card h2 { color: var(--accent); margin-bottom: 1.5rem; }
+        .modal-card input { width: 100%; padding: 0.75rem; margin-bottom: 1rem; background: #000000; border: 1px solid var(--border); border-radius: 6px; color: var(--text); }
+        .submit-btn { width: 100%; background: var(--accent); color: #000000; border: none; padding: 0.75rem; border-radius: 6px; font-weight: 800; font-size: 1rem; cursor: pointer; transition: background 0.2s; text-transform: uppercase; }
+        .submit-btn:hover { background: var(--accent-hover); }
+        .toggle-link { color: var(--accent); cursor: pointer; text-decoration: underline; }
+        .close-btn { margin-top: 1rem; background: transparent; border: 1px solid var(--border); color: var(--muted); padding: 0.5rem 1rem; border-radius: 6px; cursor: pointer; width: 100%; }
+        .close-btn:hover { color: var(--text); border-color: var(--text); }
+
+        /* FOOTER */
+        footer { text-align: center; padding: 2rem; color: var(--muted); border-top: 1px solid var(--border); margin-top: 4rem; }
+        footer a { color: var(--accent); text-decoration: none; font-weight: 600; }
+        footer a:hover { text-decoration: underline; }
+    </style>
+</head>
+<body>
+    <!-- HEADER / NAVBAR -->
+    <header>
+        <div class="brand">
+            <img src="https://i.pinimg.com/736x/04/c2/f4/04c2f4356c5f4b932fb5c0b1b9eb1514.jpg" alt="Logo" class="logo-img" style="height: 50px; width: auto; border-radius: 4px;">
+            <h1>MAKERFACTS</h1>
+        </div>
+        <nav>
+            <a href="index.html">Home</a>
+            <a href="aboutme.html" class="protected-link">About</a>
+            <a href="channels.html">Channels</a>
+            <a href="communityhelp.html" class="protected-link active">Community Help</a>
+            <a href="contact.html">Contact</a>
+            <a href="legal.html">Legal</a>
+            <button id="openAuthBtn" class="nav-btn">Sign In</button>
+        </nav>
+    </header>
+
+    <!-- AUTH POPUP MODAL -->
+    <div id="authModal" class="modal-overlay">
+        <div class="modal-card">
+            <h2 id="modalTitle">Sign In</h2>
+            <input type="email" id="authEmail" placeholder="Email" required>
+            <input type="password" id="authPassword" placeholder="Password" required>
+            
+            <button id="authSubmitBtn" class="submit-btn">Submit</button>
+            
+            <p style="font-size: 0.9rem; color: #aaa; margin-top: 15px;">
+                <span id="toggleAuthMode" class="toggle-link">Need an account? Sign Up</span>
+            </p>
+            <button id="closeModalBtn" class="close-btn">Close</button>
+        </div>
+    </div>
+
+    <!-- MAIN CONTENT -->
+    <div class="container">
+        <h2 class="section-title">Community Help & Discussion</h2>
+        <p class="section-subtitle">Ask questions, share server feedback, or start a topic with the network.</p>
+
+        <!-- LIVE PUBLIC COMMENT BOX -->
+        <div class="comment-box">
+            <script src="https://utteranc.es/client.js"
+                    repo="Makerplayz/makerfacts"
+                    issue-term="pathname"
+                    theme="github-dark"
+                    crossorigin="anonymous"
+                    async>
+            </script>
+        </div>
+    </div>
+
+    <!-- FOOTER -->
+    <footer>
+        <p>&copy; 2026 Maker Corp. All Rights Reserved.</p>
+        <p><a href="legal.html">Privacy Policy & Terms</a></p>
+    </footer>
+
+    <!-- SUPABASE INTEGRATION SCRIPT -->
+    <script>
+        const SUPABASE_URL = 'https://tbvftxuugllhbnhslizc.supabase.co';
+        const SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InRidmZ0eHV1Z2xsaGJuaHNsaXpjIiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODczNDAyNzYsImV4cCI6MjEwMjkxNjI3Nn0.L-TJPyQtJLk7wvhBcSFldYoIGagnZ1gcyKrKFWTUhXU';
+
+        const _supabase = supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
+
+        let isSignUp = false;
+
+        const modal = document.getElementById('authModal');
+        const openBtn = document.getElementById('openAuthBtn');
+        const closeBtn = document.getElementById('closeModalBtn');
+        const toggleBtn = document.getElementById('toggleAuthMode');
+        const submitBtn = document.getElementById('authSubmitBtn');
+
+        async function updateAuthUI() {
+            const { data: { session } } = await _supabase.auth.getSession();
+            
+            if (session) {
+                openBtn.innerText = 'Logout';
+                openBtn.onclick = async () => {
+                    await _supabase.auth.signOut();
+                    alert('Logged out successfully!');
+                    updateAuthUI();
+                };
+
+                document.querySelectorAll('.protected-link').forEach(link => {
+                    link.style.display = 'inline-block';
+                });
+            } else {
+                openBtn.innerText = 'Sign In';
+                openBtn.onclick = () => modal.style.display = 'flex';
+
+                document.querySelectorAll('.protected-link').forEach(link => {
+                    link.style.display = 'none';
+                });
+            }
+        }
+
+        updateAuthUI();
+        _supabase.auth.onAuthStateChange(() => updateAuthUI());
+
+        closeBtn.onclick = () => modal.style.display = 'none';
+
+        toggleBtn.onclick = () => {
+            isSignUp = !isSignUp;
+            document.getElementById('modalTitle').innerText = isSignUp ? 'Sign Up' : 'Sign In';
+            toggleBtn.innerText = isSignUp ? 'Already have an account? Sign In' : 'Need an account? Sign Up';
+        };
+
+        submitBtn.onclick = async () => {
+            const email = document.getElementById('authEmail').value;
+            const password = document.getElementById('authPassword').value;
+
+            if (!email || !password) {
+                alert('Please fill out both email and password.');
+                return;
+            }
+
+            if (isSignUp) {
+                const { data, error } = await _supabase.auth.signUp({ email, password });
+                if (error) {
+                    alert(error.message);
+                } else {
+                    alert('Account created successfully!');
+                    modal.style.display = 'none';
+                    updateAuthUI();
+                }
+            } else {
+                const { data, error } = await _supabase.auth.signInWithPassword({ email, password });
+                if (error) {
+                    alert(error.message);
+                } else {
+                    alert('Logged in successfully!');
+                    modal.style.display = 'none';
+                    updateAuthUI();
+                }
+            }
+        };
+    </script>
+</body>
+</html>
