@@ -123,6 +123,108 @@ We may update this Privacy Policy from time to time to reflect changes in our pr
 7. Contact ME
 If you have any questions or concerns about this Privacy Policy, please contact me through the official channels listed on the MakerFacts website.
 </p>
+
+              <!-- AUTH POPUP MODAL -->
+  <div id="authModal" class="modal-overlay">
+    <div class="modal-card">
+      <h2 id="modalTitle">Sign In</h2>
+      <input type="email" id="authEmail" placeholder="Email" required>
+      <input type="password" id="authPassword" placeholder="Password" required>
+      
+      <button id="authSubmitBtn" class="submit-btn">Submit</button>
+      
+      <p style="font-size: 0.9rem; color: #aaa; margin-top: 15px;">
+        <span id="toggleAuthMode" class="toggle-link">Need an account? Sign Up</span>
+      </p>
+      <button id="closeModalBtn" class="close-btn">Close</button>
+    </div>
+  </div>
+
+  <!-- SUPABASE INTEGRATION SCRIPT -->
+  <script>
+    const SUPABASE_URL = 'https://tbvftxuugllhbnhslizc.supabase.co';
+    const SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InRidmZ0eHV1Z2xsaGJuaHNsaXpjIiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODczNDAyNzYsImV4cCI6MjEwMjkxNjI3Nn0.L-TJPyQtJLk7wvhBcSFldYoIGagnZ1gcyKrKFWTUhXU';
+
+    const _supabase = supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY, {
+      global: {
+        headers: {
+          apikey: SUPABASE_ANON_KEY
+        }
+      }
+    });
+
+    let isSignUp = false;
+
+    const modal = document.getElementById('authModal');
+    const openBtn = document.getElementById('openAuthBtn');
+    const closeBtn = document.getElementById('closeModalBtn');
+    const toggleBtn = document.getElementById('toggleAuthMode');
+    const submitBtn = document.getElementById('authSubmitBtn');
+
+    // DYNAMIC UI LOGIC (Sign In vs Logout)
+    async function updateAuthUI() {
+      const { data: { session } } = await _supabase.auth.getSession();
+      
+      if (session) {
+        openBtn.innerText = 'Logout';
+        openBtn.onclick = async () => {
+          await _supabase.auth.signOut();
+          alert('Logged out successfully!');
+          updateAuthUI();
+        };
+      } else {
+        openBtn.innerText = 'Sign In';
+        openBtn.onclick = () => modal.style.display = 'flex';
+      }
+    }
+
+    // CHECK SESSION ON LOAD & AUTH CHANGES
+    updateAuthUI();
+    _supabase.auth.onAuthStateChange(() => updateAuthUI());
+
+    // MODAL CONTROLS
+    closeBtn.onclick = () => modal.style.display = 'none';
+
+    toggleBtn.onclick = () => {
+      isSignUp = !isSignUp;
+      document.getElementById('modalTitle').innerText = isSignUp ? 'Sign Up' : 'Sign In';
+      toggleBtn.innerText = isSignUp ? 'Already have an account? Sign In' : 'Need an account? Sign Up';
+    };
+
+    // FORM SUBMISSION
+    submitBtn.onclick = async () => {
+      const email = document.getElementById('authEmail').value;
+      const password = document.getElementById('authPassword').value;
+
+      if (!email || !password) {
+        alert('Please fill out both email and password.');
+        return;
+      }
+
+      if (isSignUp) {
+        const { data, error } = await _supabase.auth.signUp({ email, password });
+        if (error) {
+          alert(error.message);
+        } else {
+          alert('Account created successfully!');
+          modal.style.display = 'none';
+          updateAuthUI();
+        }
+      } else {
+        const { data, error } = await _supabase.auth.signInWithPassword({ email, password });
+        if (error) {
+          alert(error.message);
+        } else {
+          alert('Logged in successfully!');
+          modal.style.display = 'none';
+          updateAuthUI();
+        }
+      }
+    };
+  </script>
+
+</body>
+</html>
             <ul>
                 <li><strong>Data Collection:</strong> We do not collect personal identifying information directly on this directory site.</li>
                 <li><strong>External Links:</strong> External platform links (YouTube, Discord, Roblox) are subject to their respective terms and privacy policies.</li>
