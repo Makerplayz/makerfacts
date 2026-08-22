@@ -54,22 +54,137 @@
     </style>
 </head>
 <body>
-   <header>
+   <!-- HEADER / NAVBAR -->
+  <header>
+    <div class="brand">
+      <img src="https://i.pinimg.com/736x/04/c2/f4/04c2f4356c5f4b932fb5c0b1b9eb1514.jpg" alt="" class="logo-img" style="height: 60px; width: auto;">
+      <h1>MAKERFACTS</h1>
+    </div>
     <nav>
-        <a href="index.html" class="logo">
-            <img src="https://i.pinimg.com/736x/04/c2/f4/04c2f4356c5f4b932fb5c0b1b9eb1514.jpg" alt="" class="logo-img" style="height: 60px; width: auto;">
-            MakerFacts
-        </a>
-        <ul class="nav-links">
-            <li><a href="index.html">Home</a></li>
-            <li><a href="aboutme.html">About</a></li>
-            <li><a href="channels.html">Channels</a></li>
-            <li><a href="communityhelp.html">Community Help</a></li>
-            <li><a href="contact.html" class="active">Contact</a></li>
-            <li><a href="legal.html">Legal</a></li>
-        </ul>
+      <a href="index.html">Home</a>
+      
+      <!-- Protected Links (Hidden by default using the 'protected-link' class) -->
+      <a href="aboutme.html" class="protected-link">About</a>
+      <a href="channels.html">Channels</a>
+      <a href="communityhelp.html" class="protected-link">Community Help</a>
+      
+      <a href="contact.html">Contact</a>
+      <a href="legal.html" class="active">Legal</a>
+      <button id="openAuthBtn" class="nav-btn">Sign In</button>
     </nav>
-</header>
+  </header>
+
+     <!-- AUTH POPUP MODAL -->
+  <div id="authModal" class="modal-overlay">
+    <div class="modal-card">
+      <h2 id="modalTitle">Sign In</h2>
+      <input type="email" id="authEmail" placeholder="Email" required>
+      <input type="password" id="authPassword" placeholder="Password" required>
+      
+      <button id="authSubmitBtn" class="submit-btn">Submit</button>
+      
+      <p style="font-size: 0.9rem; color: #aaa; margin-top: 15px;">
+        <span id="toggleAuthMode" class="toggle-link">Need an account? Sign Up</span>
+      </p>
+      <button id="closeModalBtn" class="close-btn">Close</button>
+    </div>
+  </div>
+
+  <!-- SUPABASE INTEGRATION SCRIPT -->
+  <script>
+    const SUPABASE_URL = 'https://tbvftxuugllhbnhslizc.supabase.co';
+    const SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InRidmZ0eHV1Z2xsaGJuaHNsaXpjIiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODczNDAyNzYsImV4cCI6MjEwMjkxNjI3Nn0.L-TJPyQtJLk7wvhBcSFldYoIGagnZ1gcyKrKFWTUhXU';
+
+    const _supabase = supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY, {
+      global: {
+        headers: {
+          apikey: SUPABASE_ANON_KEY
+        }
+      }
+    });
+
+    let isSignUp = false;
+
+    const modal = document.getElementById('authModal');
+    const openBtn = document.getElementById('openAuthBtn');
+    const closeBtn = document.getElementById('closeModalBtn');
+    const toggleBtn = document.getElementById('toggleAuthMode');
+    const submitBtn = document.getElementById('authSubmitBtn');
+
+    // DYNAMIC UI LOGIC (Handles Sign In/Out and Hiding/Showing Protected Links)
+    async function updateAuthUI() {
+      const { data: { session } } = await _supabase.auth.getSession();
+      
+      if (session) {
+        // User IS Logged In
+        openBtn.innerText = 'Logout';
+        openBtn.onclick = async () => {
+          await _supabase.auth.signOut();
+          alert('Logged out successfully!');
+          updateAuthUI();
+        };
+
+        // Reveal protected navigation links
+        document.querySelectorAll('.protected-link').forEach(link => {
+          link.style.display = 'inline-block';
+        });
+
+      } else {
+        // User IS NOT Logged In
+        openBtn.innerText = 'Sign In';
+        openBtn.onclick = () => modal.style.display = 'flex';
+
+        // Hide protected navigation links
+        document.querySelectorAll('.protected-link').forEach(link => {
+          link.style.display = 'none';
+        });
+      }
+    }
+
+    // CHECK SESSION ON LOAD & AUTH CHANGES
+    updateAuthUI();
+    _supabase.auth.onAuthStateChange(() => updateAuthUI());
+
+    // MODAL CONTROLS
+    closeBtn.onclick = () => modal.style.display = 'none';
+
+    toggleBtn.onclick = () => {
+      isSignUp = !isSignUp;
+      document.getElementById('modalTitle').innerText = isSignUp ? 'Sign Up' : 'Sign In';
+      toggleBtn.innerText = isSignUp ? 'Already have an account? Sign In' : 'Need an account? Sign Up';
+    };
+
+    // FORM SUBMISSION
+    submitBtn.onclick = async () => {
+      const email = document.getElementById('authEmail').value;
+      const password = document.getElementById('authPassword').value;
+
+      if (!email || !password) {
+        alert('Please fill out both email and password.');
+        return;
+      }
+
+      if (isSignUp) {
+        const { data, error } = await _supabase.auth.signUp({ email, password });
+        if (error) {
+          alert(error.message);
+        } else {
+          alert('Account created successfully!');
+          modal.style.display = 'none';
+          updateAuthUI();
+        }
+      } else {
+        const { data, error } = await _supabase.auth.signInWithPassword({ email, password });
+        if (error) {
+          alert(error.message);
+        } else {
+          alert('Logged in successfully!');
+          modal.style.display = 'none';
+          updateAuthUI();
+        }
+      }
+    };
+  </script>
 
     <div class="container">
         <h1 class="section-title">Get in Touch</h1>
